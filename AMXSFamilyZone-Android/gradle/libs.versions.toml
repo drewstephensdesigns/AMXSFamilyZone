@@ -1,0 +1,74 @@
+[versions]
+agp = "8.3.2"
+kotlin = "1.9.23"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+appcompat = "1.7.0"
+material = "1.12.0"
+constraintlayout = "2.1.4"
+lifecycleLivedataKtx = "2.8.2"
+lifecycleViewmodelKtx = "2.8.2"
+navigationFragmentKtx = "2.7.7"
+navigationUiKtx = "2.7.7"
+core = "2.3.1"
+info = "2.3.1"
+input = "2.3.1"
+lottie = "2.3.1"
+option = "2.3.1"
+lottieVersion = "6.4.0"
+picasso = "2.71828"
+firebaseAuthKtx = "23.0.0"
+firebaseFirestoreKtx = "25.0.0"
+firebaseStorageKtx = "21.0.0"
+firebaseBom = "33.1.0"
+firebaseDatabase = "21.0.0"
+googleServices = "4.4.2"
+circleimageview = "3.1.0"
+retrofit = "2.11.0"
+converterGson = "2.11.0"
+firebaseUiFirestore = "8.0.2"
+playServicesOssLicenses = "17.1.0"
+toaster = "2.3.1"
+ktoasty = "1.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+core = { group = "com.maxkeppeler.sheets", name = "core", version.ref = "core" }
+info = { group = "com.maxkeppeler.sheets", name = "info", version.ref = "info" }
+input = { group = "com.maxkeppeler.sheets", name = "input", version.ref = "input" }
+lottie = { group = "com.maxkeppeler.sheets", name = "lottie", version.ref = "lottie" }
+option = { group = "com.maxkeppeler.sheets", name = "option", version.ref = "option" }
+android-lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottieVersion" }
+picasso = { group = "com.squareup.picasso", name = "picasso", version.ref = "picasso" }
+
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuthKtx" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
+circleimageview = { group = "de.hdodenhof", name = "circleimageview", version.ref = "circleimageview" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "converterGson" }
+firebase-ui-firestore = { group = "com.firebaseui", name = "firebase-ui-firestore", version.ref = "firebaseUiFirestore" }
+play-services-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "playServicesOssLicenses" }
+toaster = { group = "com.github.5AbhishekSaxena.toaster-android", name = "toaster", version.ref = "toaster" }
+ktoasty = { group = "com.github.shubhamvashisht", name = "KToasty", version.ref = "ktoasty" }
+
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
