@@ -1,0 +1,146 @@
+[
+  {
+    "ResourceID": 1,
+    "ResourceName": "988Lifeline",
+    "ResourceLink": "https://988lifeline.org",
+    "ResourceDescription": "Suicide and crisis response hotline"
+  },
+  {
+    "ResourceID": 2,
+    "ResourceName": "Dyess AFB SAPR Office",
+    "ResourceLink": "https://www.dyess.af.mil/Units/Support-Programs/Sexual-Assault-Response-Coordinator-SARC/",
+    "ResourceDescription": "Support services for victims of sexual assault"
+  },
+  {
+    "ResourceID": 3,
+    "ResourceName": "DoD Safe Helpline",
+    "ResourceLink": "https://www.safehelpline.org",
+    "ResourceDescription": "Confidential and anonymous support for those impacted by sexual assault"
+  },
+  {
+    "ResourceID": 4,
+    "ResourceName": "Dyess AFB Homepage",
+    "ResourceLink": "https://www.dyess.af.mil",
+    "ResourceDescription": "See news and information for Dyess AFB"
+  },
+  {
+    "ResourceID": 5,
+    "ResourceName": "MilitaryOneSource",
+    "ResourceLink": "https://www.militaryonesource.mil",
+    "ResourceDescription": "Support for military personnel and families"
+  },
+  {
+    "ResourceID": 6,
+    "ResourceName": "AFConnect App",
+    "ResourceLink": "https://play.google.com/store/apps/details?id=com.m360connect.usaf&hl=en_US&gl=US&pli=1",
+    "ResourceDescription": "Stay connected to the Air Force"
+  },
+  {
+    "ResourceID": 7,
+    "ResourceName": "Five & Thrive",
+    "ResourceLink": "https://www.fiveandthrive.org/resources",
+    "ResourceDescription": "Helping military communities tackle issues impacting quality of life"
+  },
+  {
+    "ResourceID": 8,
+    "ResourceName": "Red Cross",
+    "ResourceLink": "https://www.redcross.org",
+    "ResourceDescription": "Providing relief and support to those in crisis, to helping you be prepared to respond in emergencies"
+  },
+  {
+    "ResourceID": 9,
+    "ResourceName": "Air Force Aid Society",
+    "ResourceLink": "https://afas.org",
+    "ResourceDescription": "Emergency assistance, education support, disaster relief, and community programs to Airmen, Guardians, and their families"
+  },
+  {
+    "ResourceID": 10,
+    "ResourceName": "Abilene Vet Center",
+    "ResourceLink": "https://www.va.gov/abilene-vet-center/#:~:text=We%20offer%20confidential%20help%20for,military%20sexual%20trauma%20(MST).",
+    "ResourceDescription": "We offer confidential help for Veterans, service members, and their families at no cost in a non-medical setting"
+  },
+  {
+    "ResourceID": 11,
+    "ResourceName": "TRICARE Dental Program",
+    "ResourceLink": "https://www.tricare.mil/TDP",
+    "ResourceDescription": "A voluntary dental plan administered by United Concordia"
+  },
+  {
+    "ResourceID": 12,
+    "ResourceName": "Military Health System Nurse Advice Line",
+    "ResourceLink": "https://mhsnurseadviceline.com/home",
+    "ResourceDescription": "Provides health care support to TRICARE beneficiaries 24/7"
+  },
+  {
+    "ResourceID": 13,
+    "ResourceName": "Department of the Air Force Child & Youth Education Services",
+    "ResourceLink": "https://www.dafchildandyouth.com",
+    "ResourceDescription": "Programs and services for eligible children and youth from birth through 18 years of age"
+  },
+  {
+    "ResourceID": 14,
+    "ResourceName": "Dyess AFB Military & Family Readiness",
+    "ResourceLink": "https://dyessfss.com/military-and-family-readiness/",
+    "ResourceDescription": "Support services and resources for military members and their spouses"
+  },
+  {
+    "ResourceID": 15,
+    "ResourceName": "My Career Advancement Account Scholarship",
+    "ResourceLink": "https://mycaa.militaryonesource.mil/mycaa/",
+    "ResourceDescription": "Provides up to $4000 of financial assistance to eligible military spouses pursuing a portable career"
+  },
+  {
+    "ResourceID": 16,
+    "ResourceName": "Directory",
+    "ResourceLink": "https://dyessfss.com/directory/",
+    "ResourceDescription": "Information you need to make your time at Dyess AFB enjoyable"
+  },
+  {
+    "ResourceID": 17,
+    "ResourceName": "r/MilitarySpouse",
+    "ResourceLink": "https://www.reddit.com/r/MilitarySpouse",
+    "ResourceDescription": "Reddit community for military spouses"
+  },
+  {
+    "ResourceID": 18,
+    "ResourceName": "Military Birth Resource",
+    "ResourceLink": "https://www.militarybirthresourcenetwork.org",
+    "ResourceDescription": "Birth & family support, from one duty station to the next"
+  },
+  {
+    "ResourceID": 19,
+    "ResourceName": "School Liaison Program",
+    "ResourceLink": "https://dyessfss.com/school-liaison/",
+    "ResourceDescription": "The School Liaison Program (SLP) is the central point of contact for commanders, military families, and local school systems on school-related matters"
+  },
+  {
+    "ResourceID": 20,
+    "ResourceName": "Women, Infants & Children (WIC)",
+    "ResourceLink": "https://abilenetx.gov/398/Women-Infants-Children-WIC",
+    "ResourceDescription": "An important resource in improving the health and nutrition of women, infants, and children during pregnancy and early childhood"
+  },
+  {
+    "ResourceID": 21,
+    "ResourceName": "Hendrick Health System, Abilene",
+    "ResourceLink": "https://www.hendrickhealth.org",
+    "ResourceDescription": "Hendrick has grown with the community, offering a wide range of comprehensive healthcare services to the Texas Midwest"
+  },
+  {
+    "ResourceID": 22,
+    "ResourceName": "Abilene Events Calendar",
+    "ResourceLink": "https://www.abilenevisitors.com/events/",
+    "ResourceDescription": "In Abilene, every event is a celebration of the spirit and story of our community"
+  },
+  {
+    "ResourceID": 23,
+    "ResourceName": "TRICARE Special Programs",
+    "ResourceLink": "https://www.tricare.mil/Plans/SpecialPrograms",
+    "ResourceDescription": "TRICARE offers Special Programs for certain health conditions, populations, or concerns"
+  },
+  {
+    "ResourceID": 24,
+    "ResourceName": "Exceptional Family Member Program",
+    "ResourceLink": "https://www.afpc.af.mil/Exceptional-Family-Member-Program/",
+    "ResourceDescription": "To facilitate an all-inclusive approach to maintain the highest quality of life for special needs family members"
+  }
+]
