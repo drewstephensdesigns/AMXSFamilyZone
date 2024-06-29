@@ -78,7 +78,9 @@ class ResourcesAdapter(
                 R.drawable.ic_school,
                 R.drawable.ic_diversity,
                 R.drawable.ic_healing,
-                R.drawable.ic_local_activity
+                R.drawable.ic_local_activity,
+                R.drawable.ic_diversity_group,
+                R.drawable.ic_global
             )
 
             // Adds drawables above to textviews for resources
