@@ -142,5 +142,17 @@
     "ResourceName": "Exceptional Family Member Program",
     "ResourceLink": "https://www.afpc.af.mil/Exceptional-Family-Member-Program/",
     "ResourceDescription": "To facilitate an all-inclusive approach to maintain the highest quality of life for special needs family members"
+  },
+  {
+    "ResourceID": 25,
+    "ResourceName": "Military Spouse Advocacy Network (MSAN)",
+    "ResourceLink": "https://www.militaryspouseadvocacynetwork.org/",
+    "ResourceDescription": "MSAN’s Military Spouse Mentorship-HUB helps to bridge military families from every branch of the armed forces and their surrounding communities in locations around the world"
+  },
+  {
+    "ResourceID": 26,
+    "ResourceName": "Americans Working Around the Globe (AWAG)",
+    "ResourceLink": "http://www.awagleadership.org/",
+    "ResourceDescription": "Americans Working Around the Globe (AWAG) is a 501(c)3 nonprofit organization whose mission is building leaders to strengthen and connect communities around the globe."
   }
 ]
