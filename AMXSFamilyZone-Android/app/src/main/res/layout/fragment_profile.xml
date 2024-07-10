@@ -28,17 +28,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/user_image"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:src="@drawable/amxs"
-                        app:civ_border_color="?colorControlNormal"
-                        app:civ_border_width="2dp"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/user_profile_image"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

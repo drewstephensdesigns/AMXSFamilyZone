@@ -1,8 +1,14 @@
 package com.github.drewstephensdesigns.amxsfamilyzone.ui.home
 
 import android.app.AlertDialog
+import android.app.DownloadManager
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -19,12 +25,14 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.droidman.ktoasty.KToasty
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.LayoutItemPostBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.Post
+import com.github.drewstephensdesigns.amxsfamilyzone.models.User
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.POST_NODE
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.REPORTS_NODE
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils
@@ -34,19 +42,24 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.maxkeppeler.sheets.input.InputSheet
 import com.maxkeppeler.sheets.input.type.InputRadioButtons
-import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.net.URL
 import java.util.regex.Pattern
 
 
 class HomeAdapter(
     options: FirestoreRecyclerOptions<Post>,
     val context: Context,
-    val noResultsTextView: TextView
+    val noResultsTextView: TextView,
+    private val onUserNameClick: (User) -> Unit
 ) : FirestoreRecyclerAdapter<Post, HomeAdapter.HomeViewHolder>(options) {
 
     init {
         startListening()
-        // Attach a data observer to update the visibility of the noResultsTextView
         registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 super.onChanged()
@@ -69,10 +82,8 @@ class HomeAdapter(
         })
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        val binding =
-            LayoutItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = LayoutItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeViewHolder(binding)
     }
 
@@ -88,31 +99,34 @@ class HomeAdapter(
         return position
     }
 
-    inner class HomeViewHolder(binding: LayoutItemPostBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class HomeViewHolder(binding: LayoutItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
         private val postImage: ImageView = binding.feedPostImage
         private val authorText: TextView = binding.postAuthor
         private val postText: TextView = binding.postText
         private val postTimeText: TextView = binding.postTime
         private val postOptions: TextView = binding.vertMenuOptions
         private val postShareIcon: TextView = binding.shareText
+        private val postBookmarkIcon: TextView = binding.postBookmarkIcon
 
         fun bind(itemPost: Post) {
             authorText.text = itemPost.user.email
             postTimeText.text = itemPost.getTimeStamp()
-
             applyHashtagColor(itemPost.text, postText)
 
             if (itemPost.imageUrl.isNullOrEmpty()) {
                 postImage.visibility = View.GONE
+                postBookmarkIcon.visibility = View.GONE
             } else {
                 postImage.visibility = View.VISIBLE
-                Picasso.get()
-                    .load(itemPost.imageUrl)
-                    .placeholder(R.drawable.ic_camera)
-                    .centerCrop()
-                    .fit()
-                    .into(postImage)
+                postBookmarkIcon.visibility = View.VISIBLE
+                postImage.load(itemPost.imageUrl) {
+                    crossfade(true)
+                    crossfade(300)
+                }
+            }
+
+            authorText.setOnClickListener {
+                onUserNameClick(itemPost.user)
             }
 
             val firestore = FirebaseFirestore.getInstance()
@@ -150,34 +164,37 @@ class HomeAdapter(
                     postOptions.setOnClickListener {
                         val wrapper: Context = ContextThemeWrapper(context, R.style.Theme_AMXSFamilyZone)
                         val popup = PopupMenu(wrapper, postOptions)
-
                         popup.inflate(R.menu.popup_menu)
 
-                        // Disable the edit option if the current user is not the creator
                         if (post?.creatorId != userID) {
                             popup.menu.findItem(R.id.menuActionEdit).isEnabled = false
                             popup.menu.findItem(R.id.menuActionDelete).isEnabled = false
                         } else {
-                            // Disable the report option if the current user is the creator
                             popup.menu.findItem(R.id.menuActionReport).isEnabled = false
                         }
 
                         popup.setOnMenuItemClickListener { item ->
                             when (item.itemId) {
-                                R.id.menuActionEdit -> {
-                                    showEditPostDialog(postDocument.id, postText.text.toString())
-                                }
-                                R.id.menuActionDelete -> {
-                                    deletePost(postDocument.id)
-                                }
-                                R.id.menuActionReport ->{
-                                    reportDialog(postDocument.id)
-                                }
+                                R.id.menuActionEdit -> showEditPostDialog(postDocument.id, postText.text.toString())
+                                R.id.menuActionDelete -> deletePost(postDocument.id)
+                                R.id.menuActionReport -> reportDialog(postDocument.id)
                                 else -> {}
                             }
                             false
                         }
                         popup.show()
+                    }
+
+                    postBookmarkIcon.setOnClickListener {
+                        if (itemPost.imageUrl.isNullOrEmpty()) {
+                            KToasty.warning(context, "No image to download", Toast.LENGTH_SHORT, true).show()
+                        } else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                downloadImageUsingMediaStore(context, itemPost.imageUrl)
+                            } else {
+                                downloadImageUsingDownloadManager(context, itemPost.imageUrl)
+                            }
+                        }
                     }
                 }
             }
@@ -192,7 +209,7 @@ class HomeAdapter(
                 val start = matcher.start()
                 val end = matcher.end()
                 spannable.setSpan(
-                    ForegroundColorSpan(ContextCompat.getColor(context, R.color.hazard_orange)), // Replace with your hashtag color
+                    ForegroundColorSpan(ContextCompat.getColor(context, R.color.hazard_orange)),
                     start,
                     end,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -232,22 +249,19 @@ class HomeAdapter(
         documentReference.get().addOnSuccessListener { documentSnapshot ->
             val existingPost = documentSnapshot.toObject(Post::class.java)
             if (existingPost?.creatorId == FirebaseUtils.firebaseAuth.currentUser?.uid) {
-                documentReference.update("text", newText)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            KToasty.success(context, "Post updated!", Toast.LENGTH_SHORT, true).show()
-                        } else {
-                            KToasty.error(context, "Error updating post", Toast.LENGTH_SHORT, true).show()
-                        }
+                documentReference.update("text", newText).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        KToasty.success(context, "Post updated!", Toast.LENGTH_SHORT, true).show()
+                    } else {
+                        KToasty.error(context, "Error updating post", Toast.LENGTH_SHORT, true).show()
                     }
+                }
             } else {
                 KToasty.warning(context, "You can only edit your own posts!", Toast.LENGTH_SHORT, true).show()
             }
         }
     }
 
-    // Allows users to delete posts
-    //Updated to delete images from Firebase Storage
     private fun deletePost(postId: String) {
         val firestore = FirebaseFirestore.getInstance()
         val storage = FirebaseStorage.getInstance()
@@ -256,21 +270,17 @@ class HomeAdapter(
         documentReference.get().addOnSuccessListener { documentSnapshot ->
             val existingPost = documentSnapshot.toObject(Post::class.java)
             if (existingPost?.creatorId == FirebaseUtils.firebaseAuth.currentUser?.uid) {
-                // Check if the post has an image URL
                 val imageUrl = existingPost?.imageUrl
                 if (!imageUrl.isNullOrEmpty()) {
-                    // Delete the image from Firebase Storage
                     val storageReference = storage.getReferenceFromUrl(imageUrl)
                     storageReference.delete().addOnCompleteListener { deleteTask ->
                         if (deleteTask.isSuccessful) {
-                            // Image deleted successfully, now delete the post document
                             deletePostDocument(documentReference)
                         } else {
                             KToasty.error(context, "Error deleting post image", Toast.LENGTH_SHORT, true).show()
                         }
                     }
                 } else {
-                    // No image to delete, just delete the post document
                     deletePostDocument(documentReference)
                 }
             } else {
@@ -289,8 +299,8 @@ class HomeAdapter(
         }
     }
 
-    private fun reportDialog(postId: String){
-        InputSheet().show(context){
+    private fun reportDialog(postId: String) {
+        InputSheet().show(context) {
             title("Report Post")
             with(InputRadioButtons() {
                 label(R.string.report_text)
@@ -317,7 +327,6 @@ class HomeAdapter(
         }
     }
 
-    // Allows users to report posts
     private fun reportPost(postId: String, reason: String) {
         val firestore = FirebaseFirestore.getInstance()
         val reportReference = firestore.collection(REPORTS_NODE).document()
@@ -336,5 +345,64 @@ class HomeAdapter(
                 KToasty.error(context, "Error reporting post", Toast.LENGTH_SHORT, true).show()
             }
         }
+    }
+
+    private fun downloadImageUsingMediaStore(context: Context, imageUrl: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val uri = Uri.parse(imageUrl)
+            val resolver = context.contentResolver
+
+            val contentValues = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, uri.lastPathSegment)
+                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/AMXS")
+                put(MediaStore.Images.Media.IS_PENDING, 1)
+            }
+
+            val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            if (imageUri != null) {
+                val outputStream = resolver.openOutputStream(imageUri)
+                if (outputStream != null) {
+                    try {
+                        val inputStream = URL(imageUrl).openStream()
+                        inputStream.use { input ->
+                            outputStream.use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+                        contentValues.clear()
+                        contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
+                        resolver.update(imageUri, contentValues, null, null)
+
+                        withContext(Dispatchers.Main) {
+                            KToasty.success(context, "Image downloaded successfully!", Toast.LENGTH_SHORT, true).show()
+                        }
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        withContext(Dispatchers.Main) {
+                            KToasty.error(context, "Failed to download image", Toast.LENGTH_SHORT, true).show()
+                        }
+                    }
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    KToasty.error(context, "Failed to create MediaStore entry", Toast.LENGTH_SHORT, true).show()
+                }
+            }
+        }
+    }
+
+    private fun downloadImageUsingDownloadManager(context: Context, imageUrl: String) {
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val uri = Uri.parse(imageUrl)
+        val request = DownloadManager.Request(uri)
+
+        // Allow the media scanner to scan the downloaded file
+        request.allowScanningByMediaScanner()
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uri.lastPathSegment)
+
+        downloadManager.enqueue(request)
+        KToasty.success(context, "Downloading Image...", Toast.LENGTH_SHORT, true).show()
     }
 }

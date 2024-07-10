@@ -1,13 +1,15 @@
 package com.github.drewstephensdesigns.amxsfamilyzone
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -97,6 +99,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId){
+
                     // Settings Menu
                     R.id.action_settings -> {
                         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -167,6 +170,33 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    // called when the configuration of the device changes. It is typically used
+    // to handle changes in device orientation or changes in other device-specific
+    // configurations such as the language or screen size.
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        applyTheme()
+        getOrientation()
+        recreate()
+    }
+
+    private fun getOrientation() {
+        requestedOrientation =
+            if (Settings.System.getInt(
+                    contentResolver,
+                    Settings.System.ACCELEROMETER_ROTATION,
+                    0
+                ) == 1
+            ) {
+                //Auto Rotate is on, so don't lock
+                ActivityInfo.SCREEN_ORIENTATION_SENSOR
+            } else {
+                //Auto Rotate is off, so lock
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
+    }
+
 
     companion object {
         private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1

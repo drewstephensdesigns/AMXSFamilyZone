@@ -32,6 +32,8 @@ firebaseUiFirestore = "8.0.2"
 playServicesOssLicenses = "17.1.0"
 toaster = "2.3.1"
 ktoasty = "1.0"
+coil = "2.6.0"
+androidxNavigationSafeargsKotlinGradlePlugin = "2.7.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,6 +68,8 @@ firebase-ui-firestore = { group = "com.firebaseui", name = "firebase-ui-firestor
 play-services-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "playServicesOssLicenses" }
 toaster = { group = "com.github.5AbhishekSaxena.toaster-android", name = "toaster", version.ref = "toaster" }
 ktoasty = { group = "com.github.shubhamvashisht", name = "KToasty", version.ref = "ktoasty" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+androidx-androidx-navigation-safeargs-kotlin-gradle-plugin = { group = "androidx.navigation.safeargs.kotlin", name = "androidx.navigation.safeargs.kotlin.gradle.plugin", version.ref = "androidxNavigationSafeargsKotlinGradlePlugin" }
 
 
 [plugins]

@@ -1,6 +1,7 @@
 package com.github.drewstephensdesigns.amxsfamilyzone.ui.profile
 
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,13 +15,16 @@ import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuProvider
+import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.github.drewstephensdesigns.amxsfamilyzone.MainActivity
 import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.FragmentEditProfileBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.User
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.toast
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.UserUtil
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,7 +34,7 @@ import java.io.ByteArrayOutputStream
 
 class EditProfileFragment : Fragment() {
 
-    private var _binding : FragmentEditProfileBinding? = null
+    private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
 
     private var imageUri: Uri? = null
@@ -59,17 +63,12 @@ class EditProfileFragment : Fragment() {
 
         val imageUrl = UserUtil.user?.imageUrl
         if (!imageUrl.isNullOrEmpty()) {
-            Picasso.get()
-                .load(imageUrl)
-                //.rotate(90F)
-                .placeholder(R.drawable.amxs) // Replace with your placeholder image resource
-                .error(R.drawable.ic_person) // Replace with your error image resource
-                .into(binding.profileImage)
+            binding.profileImage.load(imageUrl) {
+                crossfade(false)
+                placeholder(R.drawable.amxs)
+            }
         } else {
-            // Load a default or placeholder image if imageUrl is null or empty
-            Picasso.get()
-                .load(R.drawable.amxs) // Replace with your default profile image resource
-                .into(binding.profileImage)
+            binding.profileImage.setImageResource(R.drawable.amxs)
         }
 
         setupMenuProvider()
@@ -101,10 +100,10 @@ class EditProfileFragment : Fragment() {
                 .load(R.drawable.amxs)
                 .into(binding.profileImage)
         } else {
-            Picasso.get()
-                .load(UserUtil.user?.imageUrl)
-                .rotate(90F)
-                .into(binding.profileImage)
+            binding.profileImage.load(UserUtil.user?.imageUrl) {
+                crossfade(false)
+                placeholder(R.drawable.amxs)
+            }
         }
     }
 
@@ -149,8 +148,15 @@ class EditProfileFragment : Fragment() {
             .child("${UserUtil.user?.email}_${System.currentTimeMillis()}.jpg")
 
         val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
+
+        // Get the EXIF data
+        val exif = ExifInterface(requireActivity().contentResolver.openInputStream(imageUri!!)!!)
+        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+        val rotatedBitmap = rotateImage(bitmap, orientation)  // Add a function to rotate the image
+
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteArrayOutputStream)
+        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteArrayOutputStream)
         val reducedImage = byteArrayOutputStream.toByteArray()
 
         val uploadTask = storage.putBytes(reducedImage)
@@ -169,6 +175,17 @@ class EditProfileFragment : Fragment() {
         }
     }
 
+    private fun rotateImage(bitmap: Bitmap, orientation: Int): Bitmap {
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(270f)
+            else -> return bitmap
+        }
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
     private fun updateUserImage(imageUrl: String) {
         val firestore = FirebaseFirestore.getInstance()
         val user = User(
@@ -182,11 +199,13 @@ class EditProfileFragment : Fragment() {
             accountCreated = UserUtil.user!!.accountCreated
         )
 
-        firestore.collection("Users")
+        firestore.collection(Consts.USER_NODE)
             .document(user.id)
             .set(user)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    // Update the local user object
+                    UserUtil.user?.imageUrl = imageUrl
                     activity?.toast("Image Uploaded")
                 } else {
                     activity?.toast("Something went wrong")
@@ -194,16 +213,21 @@ class EditProfileFragment : Fragment() {
             }
     }
 
-    private fun setupMenuProvider(){
-        requireActivity().addMenuProvider(object : MenuProvider{
+    private fun setupMenuProvider() {
+        requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.main_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when(menuItem.itemId){
-                    R.id.navigation_home -> { findNavController().popBackStack() }
-                    else -> { false }
+                return when (menuItem.itemId) {
+                    R.id.navigation_home -> {
+                        findNavController().popBackStack()
+                    }
+
+                    else -> {
+                        false
+                    }
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)

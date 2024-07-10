@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.LayoutUserItemBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.UserPost
-import com.squareup.picasso.Picasso
 
 /**
  * Adapter class for displaying user posts in a RecyclerView.
@@ -57,13 +57,12 @@ class UserPostAdapter(private val profilePosts: MutableList<UserPost>, private v
          * @param userItemPost The UserPost object to be bound to the ViewHolder.
          **/
         fun bind(userItemPost: UserPost) {
-
-            Picasso.get()
-                .load(userItemPost.imageUrl)
-                .placeholder(R.drawable.amxs)
-                .fit()
-                .into(userPostedImage)
-
+            userPostedImage.load(userItemPost.imageUrl){
+                crossfade(true)
+                crossfade(500)
+                placeholder(R.drawable.amxs)
+                error(com.droidman.ktoasty.R.drawable.ic_error_outline_white_48dp)
+            }
             userPostedImage.setOnLongClickListener {
                 onItemLongClick(userItemPost.imageUrl)
                 true

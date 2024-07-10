@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.firebase.ui.firestore)
     implementation(libs.play.services.oss.licenses)
     implementation(libs.ktoasty)
+    implementation(libs.coil)
 
 
     // Tests

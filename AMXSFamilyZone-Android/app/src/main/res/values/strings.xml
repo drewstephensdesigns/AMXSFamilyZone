@@ -6,7 +6,9 @@
     <string name="title_add_post">New Post</string>
     <string name="title_quick_links">Resources</string>
     <string name="title_profile">Profile</string>
+    <string name="title_user_profile">User Profile</string>
     <string name="title_edit_profile">Edit Profile</string>
+    <string name="title_notifications">Notifications</string>
 
     <string name="register_headline">Sign Up</string>
     <string name="sign_in_headline">Sign In</string>
@@ -28,6 +30,8 @@
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
     <string name="action_search">Search for users</string>
+    <string name="action_notifications">Notifications</string>
+    <string name="action_bookmark">Save</string>
 
     <string name="password_reset_message">Email sent!</string>
 
@@ -35,6 +39,7 @@
     <string name="sign_up_image_cd">Sign Up Image</string>
     <string name="user_post_image">User Images</string>
     <string name="dialog_image_cd">Dialog image view</string>
+    <string name="user_profile_image">Profile Image</string>
 
     <string name="edit_user_header">Name:</string>
     <string name="edit_bio_header">Biography:</string>
@@ -42,7 +47,6 @@
     <string name="followers_header">Followers</string>
     <string name="following_header">Following</string>
     <string name="posts_header">Posts</string>
-
 
     <!-- Text Hints -->
     <string name="name_hint">Name</string>
@@ -76,6 +80,8 @@
     <string name="placeholder_link">Placeholder</string>
     <string name="no_results_found_text">Nothing to see here yet. \nAdd a post to get started!</string>
     <string name="no_users_found_text">No users match your search. \n Please try again.</string>
+    <string name="no_notifications_text">You currently have no notifications. \nWe will
+notify you when something new happens!</string>
     
     <!-- Settings Fragment -->
     <string name="acknowledgement">Special Recognition and Appreciation</string>
@@ -98,5 +104,6 @@
     <string name="instagram" translatable="false">https://www.instagram.com/drewstephensdesigns/</string>
     <string name="profile_post_empty_text">When you share photos and videos,they\'ll appear on your profile</string>
     <string name="report_text">Why are you reporting this post? \n\nYour report is anonymous and will not be shared with anyone. If someone is in immediate danger, call the local emergency services - don\'t wait.</string>
+    <string name="empty_state_image">Empty state image view</string>
 
 </resources>

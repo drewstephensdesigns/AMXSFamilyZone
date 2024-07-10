@@ -5,38 +5,50 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+    <!-- Home Screen -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
+    <!-- Add New Post -->
     <fragment
         android:id="@+id/navigation_add_post"
         android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.posting.AddPostFragment"
         android:label="@string/title_add_post"
-        tools:layout="@layout/fragment_add_post">
+        tools:layout="@layout/fragment_add_post" />
 
-    </fragment>
-
+    <!-- Resources -->
     <fragment
         android:id="@+id/navigation_quick_links"
         android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.resources.ResourcesFragment"
         android:label="@string/title_quick_links"
         tools:layout="@layout/fragment_resources" />
 
+    <!-- User Profile (logged in user) -->
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 
+    <!-- User Profile (Post Creator) -->
+    <fragment
+        android:id="@+id/navigation_user_profile"
+        android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.userprofile.UserProfileFragment"
+        android:label="@string/title_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
+
+
+    <!-- Edit Profile (logged in user) -->
     <fragment
         android:id="@+id/navigation_edit_profile"
         android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.profile.EditProfileFragment"
         android:label="@string/title_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
 
+    <!-- App Settings -->
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.settings.SettingsFragment"
