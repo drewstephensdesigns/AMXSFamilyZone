@@ -34,6 +34,7 @@ toaster = "2.3.1"
 ktoasty = "1.0"
 coil = "2.6.0"
 androidxNavigationSafeargsKotlinGradlePlugin = "2.7.7"
+expandable_textview = "2.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -70,6 +71,7 @@ toaster = { group = "com.github.5AbhishekSaxena.toaster-android", name = "toaste
 ktoasty = { group = "com.github.shubhamvashisht", name = "KToasty", version.ref = "ktoasty" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 androidx-androidx-navigation-safeargs-kotlin-gradle-plugin = { group = "androidx.navigation.safeargs.kotlin", name = "androidx.navigation.safeargs.kotlin.gradle.plugin", version.ref = "androidxNavigationSafeargsKotlinGradlePlugin" }
+expandable_textview = { group = "com.github.giangpham96.expandable-text", name = "expandable_textview", version.ref = "expandable_textview" }
 
 
 [plugins]

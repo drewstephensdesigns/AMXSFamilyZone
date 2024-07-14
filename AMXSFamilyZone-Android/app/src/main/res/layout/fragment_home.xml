@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="80dp">
 
+
     <!-- No Results Text -->
     <TextView
         android:id="@+id/noResultsFoundText"

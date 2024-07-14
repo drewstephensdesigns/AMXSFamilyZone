@@ -22,10 +22,13 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.droidman.ktoasty.KToasty
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -33,6 +36,7 @@ import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.LayoutItemPostBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.Post
 import com.github.drewstephensdesigns.amxsfamilyzone.models.User
+import com.github.drewstephensdesigns.amxsfamilyzone.ui.profile.ProfileFragment
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.POST_NODE
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.REPORTS_NODE
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils
@@ -40,8 +44,11 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.gson.internal.bind.TypeAdapters.URL
 import com.maxkeppeler.sheets.input.InputSheet
 import com.maxkeppeler.sheets.input.type.InputRadioButtons
+import com.squareup.picasso.Picasso
+import io.github.giangpham96.expandable_textview.ExpandableTextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -102,7 +109,8 @@ class HomeAdapter(
     inner class HomeViewHolder(binding: LayoutItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
         private val postImage: ImageView = binding.feedPostImage
         private val authorText: TextView = binding.postAuthor
-        private val postText: TextView = binding.postText
+        //private val postText: TextView = binding.postText
+        private val postText: ExpandableTextView = binding.postText
         private val postTimeText: TextView = binding.postTime
         private val postOptions: TextView = binding.vertMenuOptions
         private val postShareIcon: TextView = binding.shareText
@@ -190,9 +198,9 @@ class HomeAdapter(
                             KToasty.warning(context, "No image to download", Toast.LENGTH_SHORT, true).show()
                         } else {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                downloadImageUsingMediaStore(context, itemPost.imageUrl)
+                                downloadImageUsingMediaStore(context, itemPost.imageUrl!!)
                             } else {
-                                downloadImageUsingDownloadManager(context, itemPost.imageUrl)
+                                downloadImageUsingDownloadManager(context, itemPost.imageUrl!!)
                             }
                         }
                     }

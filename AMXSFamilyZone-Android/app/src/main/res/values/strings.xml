@@ -102,7 +102,7 @@ notify you when something new happens!</string>
     <string name="linkedIn" translatable="false">https://www.linkedin.com/in/drewstephens/</string>
     <string name="reddit" translatable="false">https://www.reddit.com/r/AirForce/</string>
     <string name="instagram" translatable="false">https://www.instagram.com/drewstephensdesigns/</string>
-    <string name="profile_post_empty_text">When you share photos and videos,they\'ll appear on your profile</string>
+    <string name="profile_post_empty_text">When you share photos they\'ll appear on your profile</string>
     <string name="report_text">Why are you reporting this post? \n\nYour report is anonymous and will not be shared with anyone. If someone is in immediate danger, call the local emergency services - don\'t wait.</string>
     <string name="empty_state_image">Empty state image view</string>
 

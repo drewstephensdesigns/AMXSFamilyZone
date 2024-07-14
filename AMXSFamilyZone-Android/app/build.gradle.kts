@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.play.services.oss.licenses)
     implementation(libs.ktoasty)
     implementation(libs.coil)
+    implementation(libs.expandable.textview)
 
 
     // Tests

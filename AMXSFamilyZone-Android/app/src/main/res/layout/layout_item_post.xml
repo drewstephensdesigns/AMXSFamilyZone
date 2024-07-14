@@ -32,19 +32,23 @@
             tools:src="@drawable/amxs"
             android:contentDescription="@string/post_image_cd" />
 
-        <TextView
+        <io.github.giangpham96.expandable_textview.ExpandableTextView
             android:id="@+id/post_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            app:expandAction="See More"
+            app:limitedMaxLines="2"
             android:layout_margin="8dp"
             android:textColor="?colorControlNormal"
+            app:expandActionColor="?colorPrimaryContainer"
             android:textSize="@dimen/medium_text"
             android:maxLines="4"
             android:fontFamily="@font/alata"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/feed_post_image"
-            tools:text="This is a post description" />
+            app:originalText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+
 
         <TextView
             android:id="@+id/post_author"
@@ -125,7 +129,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1.2dp"
             android:background="?colorControlNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="parent"/>
