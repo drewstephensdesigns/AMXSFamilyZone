@@ -16,7 +16,8 @@
     <string name="forgot_password_headline">Forgot Password</string>
     <string name="resources_headline">Resources Finder</string>
     <string name="resources_subheader">Explore the array of resources provided by Military OneSource and various Defense Department initiatives to bolster operational preparedness and enrich daily living standards.</string>
-
+    <string name="wing_families_header">Join the 317th Airlift Wing Families Group (Facebook)</string>
+    <string name="base_spouses_header">Join the Dyess Spouses Group (Facebook)</string>
     <string name="crisis_info">* Orange border denotes crisis response resources</string>
 
     <!-- App Actions -->

@@ -51,6 +51,15 @@ class ResourcesFragment : Fragment(),
     }
 
     private fun initFeaturedVM(){
+
+        binding.wingFamiliesHeader.setOnClickListener {
+            handleLink("https://www.facebook.com/groups/317awfamilies/?ref=share&mibextid=NSMWBT")
+        }
+
+        binding.dyessSpousesHeader.setOnClickListener {
+            handleLink("https://www.facebook.com/groups/259025040926614/?ref=share&mibextid=NSMWBT")
+        }
+
         featuredViewModel = ViewModelProvider(requireActivity(),
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
             )[FeaturedViewModel::class.java]
@@ -134,6 +143,12 @@ class ResourcesFragment : Fragment(),
     override fun onclickListener(featured: FeaturedItem) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.setDataAndType(Uri.parse(featured.DocumentUrl), "application/pdf")
+        startActivity(intent)
+    }
+
+    private fun handleLink(link: String){
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = (Uri.parse(link))
         startActivity(intent)
     }
 

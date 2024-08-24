@@ -74,10 +74,6 @@ class FeaturedAdapter(
                 )
             )
 
-
-
-
-
             cardView.setOnClickListener {
                 clickListener.onclickListener(featuredItems[bindingAdapterPosition])
             }

@@ -1,60 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="?attr/actionBarSize"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="?attr/actionBarSize"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <TextView
-        android:id="@+id/resource_header"
-        android:layout_width="wrap_content"
+    <RelativeLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/resources_headline"
-        android:textSize="@dimen/xlarge_text"
-        android:fontFamily="@font/alata"
-        android:textStyle="bold"
-        android:textColor="?colorControlNormal"
-        android:layout_marginTop="@dimen/large_text"
-        android:layout_marginStart="@dimen/activity_horizontal_margin" />
+        android:paddingBottom="30dp">
 
-    <TextView
-        android:id="@+id/resource_subheader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/resource_header"
-        android:text="@string/resources_subheader"
-        android:textSize="@dimen/resource_text"
-        android:fontFamily="@font/alata"
-        android:textStyle="italic"
-        android:textColor="?colorControlNormal"
-        android:layout_marginTop="@dimen/large_text"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+        <TextView
+            android:id="@+id/resource_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resources_headline"
+            android:textSize="@dimen/xlarge_text"
+            android:fontFamily="@font/alata"
+            android:textStyle="bold"
+            android:textColor="?colorControlNormal"
+            android:layout_marginTop="@dimen/large_text"
+            android:layout_marginStart="@dimen/activity_horizontal_margin" />
+
+        <TextView
+            android:id="@+id/resource_subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/resource_header"
+            android:text="@string/resources_subheader"
+            android:textSize="@dimen/resource_text"
+            android:fontFamily="@font/alata"
+            android:textStyle="italic"
+            android:textColor="?colorControlNormal"
+            android:layout_marginTop="@dimen/large_text"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
 
-    <!-- Featured
+        <!-- Featured
 Recyclerview -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/featured_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/resource_subheader"
-        android:layout_marginTop="@dimen/large_text">
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/featured_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/resource_subheader"
+            android:layout_marginTop="@dimen/large_text">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/wing_families_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/featured_rv"
+            android:text="@string/wing_families_header"
+            android:fontFamily="@font/alata"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            style="@style/TextAppearance.Material3.TitleSmall"
+            android:textColor="?colorTertiary"
+            android:layout_marginTop="@dimen/medium_text"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:linksClickable="true" />
+
+        <TextView
+            android:id="@+id/dyess_spouses_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/wing_families_header"
+            android:text="@string/base_spouses_header"
+            android:fontFamily="@font/alata"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            style="@style/TextAppearance.Material3.TitleSmall"
+            android:textColor="?colorTertiary"
+            android:layout_marginTop="@dimen/medium_text"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:linksClickable="true" />
 
     <TextView
         android:id="@+id/crisis_subheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/featured_rv"
+        android:layout_below="@id/dyess_spouses_header"
         android:text="@string/crisis_info"
         android:fontFamily="@font/alata"
         android:textStyle="bold"
-       android:layout_centerHorizontal="true"
+        android:layout_centerHorizontal="true"
         style="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="@color/hazard_orange"
         android:layout_marginTop="@dimen/large_text"
