@@ -1,29 +1,42 @@
 package com.github.drewstephensdesigns.amxsfamilyzone.ui.profile
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.droidman.ktoasty.KToasty
 import com.github.drewstephensdesigns.amxsfamilyzone.MainActivity
 import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.FragmentProfileBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.User
 import com.github.drewstephensdesigns.amxsfamilyzone.models.UserPost
 import com.github.drewstephensdesigns.amxsfamilyzone.ui.profile.adapter.UserPostAdapter
-import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.POST_NODE
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.USER_NODE
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.notifyUserNoImage
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.UserUtil
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.storage.FirebaseStorage
+import com.maxkeppeler.sheets.core.SheetStyle
+import com.maxkeppeler.sheets.option.DisplayMode
+import com.maxkeppeler.sheets.option.Option
+import com.maxkeppeler.sheets.option.OptionSheet
 import com.squareup.picasso.Picasso
 
 
@@ -44,8 +57,10 @@ class ProfileFragment : Fragment() {
 
     // Current user and Firestore references
     private lateinit var currentUser: User
+
     private lateinit var firestore: FirebaseFirestore
     private lateinit var profileDocRef: DocumentReference
+
     private var profileListener: ListenerRegistration? = null
     private var countPost: Int = 0
 
@@ -68,7 +83,7 @@ class ProfileFragment : Fragment() {
         currentUser = UserUtil.user!!
 
         // Set the Firestore document reference
-        profileDocRef = firestore.collection(Consts.USER_NODE).document(currentUser.id)
+        profileDocRef = firestore.collection(USER_NODE).document(currentUser.id)
 
         // Update views with the current user's information
         updateViews(currentUser)
@@ -112,29 +127,151 @@ class ProfileFragment : Fragment() {
     //Initializes the RecyclerView with a grid layout and sets its adapter
     private fun initRecyclerview() {
         binding.rvPhoto.layoutManager = GridLayoutManager(requireContext(), 3)
-        postAdapter = UserPostAdapter(profilePosts) { imageUrl ->
+        postAdapter = UserPostAdapter(profilePosts, { imageUrl ->
             if (imageUrl.isNullOrEmpty()) {
                 notifyUserNoImage(requireContext(), "No Images")
             } else {
-                showImageDialog(imageUrl)
+                showImageDialog(UserPost(imageUrl = imageUrl))
             }
-        }
+        }, { post ->
+            showEditPostDialog(post.id.toString(), post.description, post.imageUrl)
+        })
         binding.rvPhoto.adapter = postAdapter
     }
 
+    private fun showEditPostDialog(postId: String, postDescription: String, imageUrl: String) {
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_edit_post, null)
+        val editText = dialogView.findViewById<EditText>(R.id.edit_post_text)
+        val updateButton = dialogView.findViewById<MaterialButton>(R.id.button_update_post)
+        val deleteButton = dialogView.findViewById<MaterialButton>(R.id.button_delete_post)
+        editText.setText(postDescription)
+
+        val alertDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogView)
+            .create()
+        alertDialog.show()
+
+        updateButton.setOnClickListener {
+            val newText = editText.text.toString().trim()
+            if (newText.isNotEmpty()) {
+                updatePost(postId, newText)
+                alertDialog.dismiss()
+            } else {
+                KToasty.warning(
+                    requireContext(),
+                    "Post text cannot be empty",
+                    Toast.LENGTH_SHORT,
+                    true
+                ).show()
+            }
+        }
+
+        deleteButton.setOnClickListener {
+            deletePost(postId, imageUrl)
+            alertDialog.dismiss()
+        }
+    }
+
+    // Allows user to update post description
+    private fun updatePost(postId: String, newDescription: String) {
+        Log.d("DeletePost", "Post ID: $postId")
+
+        val firestore = FirebaseFirestore.getInstance()
+        val docRef = firestore.collection(POST_NODE).document(postId)
+
+        docRef.update("text", newDescription)
+            .addOnSuccessListener {
+                KToasty.success(
+                    requireContext(),
+                    "Post updated successfully",
+                    Toast.LENGTH_SHORT,
+                    true
+                ).show()
+                postAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                KToasty.error(
+                    requireContext(),
+                    "Error updating post: ${exception.message}",
+                    Toast.LENGTH_SHORT,
+                    true
+                ).show()
+            }
+    }
+
+    // Allows user to delete their post and removes image from firebase
+    private fun deletePost(postId: String, imageUrl: String) {
+
+        // First, delete the image from Firebase Storage
+        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+        storageRef.delete().addOnSuccessListener {
+
+            // Image deleted successfully, now delete the Firestore document
+            val postRef = FirebaseFirestore
+                .getInstance()
+                .collection(POST_NODE)
+                .document(postId)
+
+            postRef
+                .delete()
+                .addOnSuccessListener {
+                    // Firestore document deleted successfully
+                    KToasty.success(requireContext(), "Post deleted successfully", Toast.LENGTH_SHORT).show()
+                    postAdapter.notifyDataSetChanged()
+                    updateViews(currentUser)
+            }.addOnFailureListener { e ->
+                // Firestore document deletion failed
+                KToasty.error(requireContext(), "Failed to delete post: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener { e ->
+            // Image deletion failed
+            KToasty.error(requireContext(), "Failed to delete image: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     // Shows users photos in AlertDialog View
-    private fun showImageDialog(imageUrl: String) {
+    private fun showImageDialog(post: UserPost) {
 
         val dialogView =
             LayoutInflater.from(requireContext()).inflate(R.layout.dialog_post_view, null)
         val dialogImageView: ImageView = dialogView.findViewById(R.id.dialogImageView)
+        val vertMenu: ImageView = dialogView.findViewById(R.id.menuIcon)
 
-        Picasso.get().load(imageUrl).into(dialogImageView)
-        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+        Picasso.get().load(post.imageUrl).into(dialogImageView)
+        MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(dialogView)
             .setTitle(currentUser.name)
             .create()
             .show()
+
+        vertMenu.setOnClickListener {
+            OptionSheet().show(requireContext()) {
+                style(SheetStyle.BOTTOM_SHEET)
+                displayMode(DisplayMode.LIST)
+                with(
+                    Option("Share", "share image with your friends"),
+                )
+                onPositive { index: Int, _: Option ->
+                    when (index) {
+                        0 -> {
+                            sharePost(post.imageUrl)
+                            dismiss()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun sharePost(imageUrl: String){
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, "Check out this image: $imageUrl")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        startActivity(Intent.createChooser(shareIntent, "Share Image URL"))
     }
 
     // Shows profile image in an AlertDialog View
@@ -144,25 +281,29 @@ class ProfileFragment : Fragment() {
         val dialogImageView: ImageView = dialogView.findViewById(R.id.dialogImageView)
 
         Picasso.get().load(userImage).into(dialogImageView)
-        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+        MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(dialogView)
             .create()
             .show()
     }
 
-
-     // Fetches the user's posts from Firestore and updates the RecyclerView.
-     // @param displayName The display name of the user whose posts are to be fetched.
+    // Fetches the user's posts from Firestore and updates the RecyclerView.
+    // @param displayName The display name of the user whose posts are to be fetched.
     private fun fetchUserPosts(displayName: String) {
-        firestore.collection(Consts.POST_NODE)
+        firestore.collection(POST_NODE)
             .whereEqualTo("user.name", displayName)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 countPost = querySnapshot.size()
                 Log.e("Count Post", "$countPost")
                 profilePosts.clear()
-                val posts = querySnapshot.toObjects(UserPost::class.java)
-                profilePosts.addAll(posts)
+                for (document in querySnapshot.documents) {
+                    val userPost = document.toObject(UserPost::class.java)
+                    if (userPost != null) {
+                        userPost.id = document.id // Ensure this line is present
+                        profilePosts.add(userPost)
+                    }
+                }
                 if (profilePosts.isNotEmpty()) {
                     binding.emptyText.visibility = View.GONE
                 } else {

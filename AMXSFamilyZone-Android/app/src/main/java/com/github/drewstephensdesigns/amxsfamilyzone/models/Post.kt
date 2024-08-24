@@ -11,12 +11,14 @@ import java.util.Locale
 
 
 data class Post(
+    val id: String = "",
     val text: String = "",
     val imageUrl: String? = null,
     val user: User = User(),
     val time: Long = 0L,
     val creatorId: String = "",
-    val likeList: MutableList<String> = mutableListOf()
+    val likeList: MutableList<String> = mutableListOf(),
+    val hashtags: MutableList<String> = mutableListOf()
 
 ){
     fun getTimeStamp(): String? {

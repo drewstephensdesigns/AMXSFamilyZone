@@ -11,6 +11,7 @@
     <color name="white">#BAB6B6</color>
 
     <color name="platinum">#E5E5E5</color>
+    <color name="actual_white">#EAFFFD</color>
 
     <!-- AMXS Color Theme
     Colors based off OCP patch colors -->
@@ -25,6 +26,8 @@
 
     <color name="charger_red">#AB1F20</color>
     <color name="eagle_blue">#1282D8</color>
+
+    <color name="prussian_blue">#102E4A</color>
 
 
 </resources>

@@ -19,6 +19,7 @@ object Consts {
 
     // Github URL serving static data
     const val FEATURED_URL = "https://drewstephensdesigns.github.io/AMXSFamilyZone/data/"
+    const val DEFAULT_USER_IMAGE = "https://firebasestorage.googleapis.com/v0/b/amxs-family-zone-a2d4e.appspot.com/o/Images%2Fdefault_user_image.jpg?alt=media&token=24692997-da61-4e3a-b4c1-6858236d29c6"
 
     // Static function for saving to clipboard
     fun save(context: Context, text: String) {

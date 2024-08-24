@@ -8,11 +8,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="14dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,33 +19,32 @@
         <ImageView
             android:id="@+id/feed_post_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            android:layout_height="210dp"
             android:layout_marginVertical="@dimen/small_text"
-            app:layout_constraintDimensionRatio="H,1:1"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/post_image_cd"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/amxs"
-            android:contentDescription="@string/post_image_cd" />
+            tools:src="@drawable/amxs" />
 
-        <io.github.giangpham96.expandable_textview.ExpandableTextView
+        <TextView
             android:id="@+id/post_text"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:expandAction="See More"
-            app:limitedMaxLines="2"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:textColor="?colorControlNormal"
-            app:expandActionColor="?colorPrimaryContainer"
             android:textSize="@dimen/medium_text"
-            android:maxLines="4"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:fontFamily="@font/alata"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/feed_post_image"
-            app:originalText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
 
         <TextView
@@ -128,9 +125,9 @@
             app:layout_constraintTop_toBottomOf="@id/post_time" />
 
         <View
+            style="@style/CustomViewSeparator"
             android:layout_width="match_parent"
             android:layout_height="1.2dp"
-            android:background="?colorControlNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="parent"/>
 

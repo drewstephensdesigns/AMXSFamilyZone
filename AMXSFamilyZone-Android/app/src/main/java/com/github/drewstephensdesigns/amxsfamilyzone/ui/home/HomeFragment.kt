@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
 
         // Firestore query to exclude posts by the current user
         val query = firestore.collection(Consts.POST_NODE)
-            .whereNotEqualTo("creatorId", currentUserId)
+            //.whereNotEqualTo("creatorId", currentUserId)
             .orderBy("creatorId") // Ensure this field matches the index order
             .orderBy("time", Query.Direction.DESCENDING) // Ensure this field matches the index order
 

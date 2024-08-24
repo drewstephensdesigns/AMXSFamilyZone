@@ -19,6 +19,7 @@ import com.github.drewstephensdesigns.amxsfamilyzone.models.UserPost
 import com.github.drewstephensdesigns.amxsfamilyzone.ui.profile.adapter.UserPostAdapter
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.notifyUserNoImage
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
@@ -89,13 +90,15 @@ class UserProfileFragment : Fragment() {
 
     private fun initRecyclerview() {
         binding.rvPostsUserProfile.layoutManager = GridLayoutManager(requireContext(), 3)
-        postAdapter = UserPostAdapter(profilePosts) { imageUrl ->
+        postAdapter = UserPostAdapter(profilePosts, { imageUrl ->
             if (imageUrl.isNullOrEmpty()) {
                 notifyUserNoImage(requireContext(), "No Images")
             } else {
                 showImageDialog(imageUrl)
             }
-        }
+        }, {
+            // not used for the user side
+        })
         binding.rvPostsUserProfile.adapter = postAdapter
     }
 
@@ -104,16 +107,15 @@ class UserProfileFragment : Fragment() {
             .whereEqualTo("user.id", userId)
             .get()
             .addOnSuccessListener { querySnapshot ->
-                Log.d("UserProfileFragment", "Fetched ${querySnapshot.size()} posts")
-                profilePosts.clear()
                 val posts = querySnapshot.toObjects(UserPost::class.java)
-                profilePosts.addAll(posts)
-                if (profilePosts.isNotEmpty()) {
-                    Log.d("UserProfileFragment", "Posts: $profilePosts")
-                } else {
-                    Log.d("UserProfileFragment", "No posts found")
+                profilePosts.clear()
+                posts.forEach { post ->
+                    if (post.id != null) {
+                        profilePosts.add(post)
+                    } else {
+                        Log.w("UserProfileFragment", "Post with null ID found and ignored")
+                    }
                 }
-
                 profilePosts.sortByDescending { it.creationTimeMs }
                 postAdapter.notifyDataSetChanged()
             }
@@ -127,7 +129,10 @@ class UserProfileFragment : Fragment() {
         fetchUserPosts(postCreator.id)
 
         if (postCreator.imageUrl.isEmpty()) {
-            binding.profileUserImage.setImageResource(R.drawable.amxs_hd)
+            binding.profileUserImage.load(Consts.DEFAULT_USER_IMAGE){
+                transformations(CircleCropTransformation())
+            }
+
         } else {
             binding.profileUserImage.load(postCreator.imageUrl) {
                 crossfade(true)
@@ -158,7 +163,7 @@ class UserProfileFragment : Fragment() {
         val dialogImageView: ImageView = dialogView.findViewById(R.id.dialogImageView)
 
         Picasso.get().load(imageUrl).into(dialogImageView)
-        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+        MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(dialogView)
             .setTitle(postAuthor.name)
             .create()

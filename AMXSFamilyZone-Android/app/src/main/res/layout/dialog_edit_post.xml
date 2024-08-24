@@ -3,18 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_gravity="center"
     android:padding="16dp">
 
-    <EditText
+    <TextView
+        android:id="@+id/edit_post_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:text="@string/title_edit_post_description"
+        android:textColor="?colorControlNormal"
+        android:fontFamily="@font/allerta" />
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edit_post_text"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:inputType="textMultiLine"
+        android:textColor="?colorControlNormal"
         android:maxLines="4"
         android:autofillHints=""
         android:hint="@string/action_edit_post" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_update_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,5 +34,25 @@
         android:textColor="?colorSurfaceContainerLow"
         android:textSize="@dimen/edittext_button_size"
         android:textStyle="normal"
-        android:text="@string/update_button_text" />
+        android:text="@string/update_button_text"
+        android:elevation="2dp"
+        android:layout_marginTop="5dp"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="12dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_delete_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alata"
+        android:textAllCaps="false"
+        android:textColor="@color/platinum"
+        android:textSize="@dimen/edittext_button_size"
+        android:textStyle="normal"
+        android:text="@string/action_delete_post"
+        android:backgroundTint="@color/charger_red"
+        android:elevation="2dp"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="12dp" />
 </LinearLayout>

@@ -12,6 +12,13 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
+    <!-- Search Screen -->
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+
     <!-- Add New Post -->
     <fragment
         android:id="@+id/navigation_add_post"
@@ -54,5 +61,6 @@
         android:name="com.github.drewstephensdesigns.amxsfamilyzone.ui.settings.SettingsFragment"
         android:label="@string/action_settings"
         tools:layout="@layout/fragment_settings" />
+
 
 </navigation>

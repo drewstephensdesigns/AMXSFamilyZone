@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorOnTertiary">@color/prussian_blue</item>
     </style>
 
     <style name="Theme.Register" parent="Theme.Material3.DayNight.NoActionBar">
@@ -54,6 +55,26 @@
         <item name="android:paddingEnd">15dp</item>
         <item name="android:paddingTop">15dp</item>
         <item name="android:paddingBottom">15dp</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowBackground">?colorSurfaceContainerLow</item>
+        <item name="android:colorAccent">@color/hazard_orange</item>
+        <item name="android:textColor">?colorControlNormal</item>
+        <item name="android:textColorSecondary">@color/eagle_blue</item>
+        <!-- Button text color -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
+        <item name="fontFamily">@font/allerta</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:backgroundDimAmount">0.7</item>
+    </style>
+
+    <style name="CustomDialogButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">?colorControlNormal</item>
+    </style>
+
+    <style name="CustomViewSeparator" parent="">
+        <item name="android:background">?colorSurfaceContainerLow</item>
     </style>
 
 </resources>

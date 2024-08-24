@@ -8,12 +8,17 @@ import coil.load
 import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.LayoutUserItemBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.UserPost
+import kotlin.math.truncate
 
 /**
  * Adapter class for displaying user posts in a RecyclerView.
  * @param profilePosts A mutable list of UserPost objects representing the posts to be displayed.
  */
-class UserPostAdapter(private val profilePosts: MutableList<UserPost>, private val onItemLongClick: (String?) -> Unit)
+class UserPostAdapter(
+    private val profilePosts: MutableList<UserPost>,
+    private val onItemLongClick: (String?) -> Unit,
+    private val editPostClickListener: (UserPost) -> Unit
+)
     : RecyclerView.Adapter<UserPostAdapter.UserPostVH>() {
 
     /**
@@ -66,6 +71,10 @@ class UserPostAdapter(private val profilePosts: MutableList<UserPost>, private v
             userPostedImage.setOnLongClickListener {
                 onItemLongClick(userItemPost.imageUrl)
                 true
+            }
+
+            userPostedImage.setOnClickListener {
+                editPostClickListener(userItemPost)
             }
         }
     }

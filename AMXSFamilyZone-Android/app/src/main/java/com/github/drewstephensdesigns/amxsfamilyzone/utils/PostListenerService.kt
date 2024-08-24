@@ -2,6 +2,7 @@ package com.github.drewstephensdesigns.amxsfamilyzone.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.github.drewstephensdesigns.amxsfamilyzone.MainActivity
 import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.models.Post
 import com.google.firebase.auth.FirebaseAuth
@@ -63,11 +65,20 @@ class PostListenerService : Service() {
                 notificationManager.createNotificationChannel(notificationChannel)
             }
 
+            // Create an intent to open the app when the notification is clicked
+            val intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra("postId", post.id) // Pass the post ID if you want to navigate to a specific post
+            }
+            val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
             val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
                 .setContentTitle("New Post by ${post.user.name}")
                 .setContentText(post.text)
                 .setSmallIcon(R.drawable.amxs)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent) // Set the pending intent to open the app
+                .setAutoCancel(true) // Auto-cancel the notification when clicked
 
             notificationManager.notify(post.creatorId.hashCode(), notificationBuilder.build())
         } else {
@@ -85,7 +96,8 @@ class PostListenerService : Service() {
             manager.createNotificationChannel(notificationChannel)
         }
 
-        val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
+        val notificationBuilder = NotificationCompat.Builder(
+            this, notificationChannelId)
             .setContentTitle("Post Listener Service")
             .setContentText("Listening for new posts...")
             .setSmallIcon(R.drawable.amxs)

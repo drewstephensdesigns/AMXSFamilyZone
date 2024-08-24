@@ -9,6 +9,7 @@
     <string name="title_user_profile">User Profile</string>
     <string name="title_edit_profile">Edit Profile</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_edit_post_description">Edit Post Text</string>
 
     <string name="register_headline">Sign Up</string>
     <string name="sign_in_headline">Sign In</string>
@@ -47,6 +48,11 @@
     <string name="followers_header">Followers</string>
     <string name="following_header">Following</string>
     <string name="posts_header">Posts</string>
+    <string name="trending_header">Trending Posts</string>
+    <string name="trending_users_header">New User Suggestions</string>
+
+    <string name="trending_title">Trending Title</string>
+    <string name="trending_description">Trending Post Description</string>
 
     <!-- Text Hints -->
     <string name="name_hint">Name</string>
@@ -73,7 +79,7 @@
 
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="post_image_cd">Post image placeholder</string>
-    <string name="share_your_message">What\'s on Your Mind? \n Post a Picture, Text, or Both</string>
+    <string name="share_your_message">What\'s on Your Mind?</string>
     <string name="post_text">Write a caption</string>
     <string name="post">Post</string>
 
@@ -82,6 +88,7 @@
     <string name="no_users_found_text">No users match your search. \n Please try again.</string>
     <string name="no_notifications_text">You currently have no notifications. \nWe will
 notify you when something new happens!</string>
+    <string name="no_posts_found">Nothing to see here</string>
     
     <!-- Settings Fragment -->
     <string name="acknowledgement">Special Recognition and Appreciation</string>

@@ -11,6 +11,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -28,6 +31,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
 import com.droidman.ktoasty.KToasty
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -40,6 +44,7 @@ import com.github.drewstephensdesigns.amxsfamilyzone.ui.profile.ProfileFragment
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.POST_NODE
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.REPORTS_NODE
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -109,8 +114,7 @@ class HomeAdapter(
     inner class HomeViewHolder(binding: LayoutItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
         private val postImage: ImageView = binding.feedPostImage
         private val authorText: TextView = binding.postAuthor
-        //private val postText: TextView = binding.postText
-        private val postText: ExpandableTextView = binding.postText
+        private val postText: TextView = binding.postText
         private val postTimeText: TextView = binding.postTime
         private val postOptions: TextView = binding.vertMenuOptions
         private val postShareIcon: TextView = binding.shareText
@@ -121,6 +125,7 @@ class HomeAdapter(
             postTimeText.text = itemPost.getTimeStamp()
             applyHashtagColor(itemPost.text, postText)
 
+            // If post includes images, shows bookmark
             if (itemPost.imageUrl.isNullOrEmpty()) {
                 postImage.visibility = View.GONE
                 postBookmarkIcon.visibility = View.GONE
@@ -133,20 +138,41 @@ class HomeAdapter(
                 }
             }
 
-            authorText.setOnClickListener {
-                onUserNameClick(itemPost.user)
+            // Since I haven't figured out a good size for images, this keeps
+            // the images smaller, but allows the user to view a full size in a popup window
+            postImage.setOnClickListener {
+                if(itemPost.imageUrl!!.isNotEmpty()){
+                    val dialogView =
+                        LayoutInflater.from(context).inflate(R.layout.dialog_post_view, null)
+                    val dialogImageView: ImageView = dialogView.findViewById(R.id.dialogImageView)
+
+                    Picasso.get().load(itemPost.imageUrl).into(dialogImageView)
+                    MaterialAlertDialogBuilder(context, R.style.CustomAlertDialog)
+                        .setView(dialogView)
+                        //.setTitle(currentUser.name)
+                        .create()
+                        .show()
+                }
             }
 
             val firestore = FirebaseFirestore.getInstance()
             val userID = FirebaseUtils.firebaseAuth.currentUser?.uid
-
             val postDocument = firestore.collection(POST_NODE)
                 .document(snapshots.getSnapshot(bindingAdapterPosition).id)
+
+            // Allows the user to view other profiles
+            authorText.setOnClickListener {
+                if (itemPost.creatorId != userID){
+                    onUserNameClick(itemPost.user)
+                }
+            }
 
             postDocument.get().addOnCompleteListener {
                 if (it.isSuccessful) {
                     val post = it.result?.toObject(Post::class.java)
 
+                    // If the post is text only, it'll share the text
+                    // If post includes image, the Firebase Storage url will be shared
                     postShareIcon.setOnClickListener {
                         if (post?.imageUrl.isNullOrEmpty()) {
                             val sendIntent: Intent = Intent().apply {
@@ -169,22 +195,16 @@ class HomeAdapter(
                         }
                     }
 
+                    // Popup Menu - Report Post
                     postOptions.setOnClickListener {
                         val wrapper: Context = ContextThemeWrapper(context, R.style.Theme_AMXSFamilyZone)
                         val popup = PopupMenu(wrapper, postOptions)
                         popup.inflate(R.menu.popup_menu)
 
-                        if (post?.creatorId != userID) {
-                            popup.menu.findItem(R.id.menuActionEdit).isEnabled = false
-                            popup.menu.findItem(R.id.menuActionDelete).isEnabled = false
-                        } else {
-                            popup.menu.findItem(R.id.menuActionReport).isEnabled = false
-                        }
+                        popup.menu.findItem(R.id.menuActionReport).isEnabled = post?.creatorId != userID
 
                         popup.setOnMenuItemClickListener { item ->
                             when (item.itemId) {
-                                R.id.menuActionEdit -> showEditPostDialog(postDocument.id, postText.text.toString())
-                                R.id.menuActionDelete -> deletePost(postDocument.id)
                                 R.id.menuActionReport -> reportDialog(postDocument.id)
                                 else -> {}
                             }
@@ -193,14 +213,15 @@ class HomeAdapter(
                         popup.show()
                     }
 
+                    // Allows user to save image to device
                     postBookmarkIcon.setOnClickListener {
                         if (itemPost.imageUrl.isNullOrEmpty()) {
                             KToasty.warning(context, "No image to download", Toast.LENGTH_SHORT, true).show()
                         } else {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                downloadImageUsingMediaStore(context, itemPost.imageUrl!!)
+                                downloadImageUsingMediaStore(context, itemPost.imageUrl)
                             } else {
-                                downloadImageUsingDownloadManager(context, itemPost.imageUrl!!)
+                                downloadImageUsingDownloadManager(context, itemPost.imageUrl)
                             }
                         }
                     }
@@ -208,6 +229,7 @@ class HomeAdapter(
             }
         }
 
+        // Changes colors of hashtags
         private fun applyHashtagColor(text: String, textView: TextView) {
             val spannable = SpannableStringBuilder(text)
             val hashtagPattern = Pattern.compile("#(\\w+)")
@@ -216,97 +238,33 @@ class HomeAdapter(
             while (matcher.find()) {
                 val start = matcher.start()
                 val end = matcher.end()
-                spannable.setSpan(
-                    ForegroundColorSpan(ContextCompat.getColor(context, R.color.hazard_orange)),
-                    start,
-                    end,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+                val hashtag = matcher.group()
+
+                val clickableSpan = object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        // Handle the hashtag click here
+                        onHashtagClick(hashtag)
+                    }
+
+                    override fun updateDrawState(ds: TextPaint) {
+                        super.updateDrawState(ds)
+                        ds.color = ContextCompat.getColor(context, R.color.hazard_orange)
+                        ds.isUnderlineText = false // remove underline
+                    }
+                }
+                spannable.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
 
             textView.text = spannable
+            textView.movementMethod = LinkMovementMethod.getInstance() // This is important to make the links clickable
         }
     }
 
-    private fun showEditPostDialog(postId: String, currentText: String) {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_post, null)
-        val editText = dialogView.findViewById<EditText>(R.id.edit_post_text)
-        val updateButton = dialogView.findViewById<Button>(R.id.button_update_post)
-        editText.setText(currentText)
-
-        val alertDialog = AlertDialog.Builder(context, R.style.CustomAlertDialog)
-            .setView(dialogView)
-            .create()
-
-        updateButton.setOnClickListener {
-            val newText = editText.text.toString().trim()
-            if (newText.isNotEmpty()) {
-                updatePost(postId, newText)
-                alertDialog.dismiss()
-            } else {
-                KToasty.warning(context, "Post text cannot be empty", Toast.LENGTH_SHORT, true).show()
-            }
-        }
-        alertDialog.show()
+    private fun onHashtagClick(hashtag: String){
+        KToasty.info(context, "Not Yet Available", Toast.LENGTH_SHORT, false).show()
     }
 
-    private fun updatePost(postId: String, newText: String) {
-        val firestore = FirebaseFirestore.getInstance()
-        val documentReference = firestore.collection(POST_NODE).document(postId)
-
-        documentReference.get().addOnSuccessListener { documentSnapshot ->
-            val existingPost = documentSnapshot.toObject(Post::class.java)
-            if (existingPost?.creatorId == FirebaseUtils.firebaseAuth.currentUser?.uid) {
-                documentReference.update("text", newText).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        KToasty.success(context, "Post updated!", Toast.LENGTH_SHORT, true).show()
-                    } else {
-                        KToasty.error(context, "Error updating post", Toast.LENGTH_SHORT, true).show()
-                    }
-                }
-            } else {
-                KToasty.warning(context, "You can only edit your own posts!", Toast.LENGTH_SHORT, true).show()
-            }
-        }
-    }
-
-    private fun deletePost(postId: String) {
-        val firestore = FirebaseFirestore.getInstance()
-        val storage = FirebaseStorage.getInstance()
-        val documentReference = firestore.collection(POST_NODE).document(postId)
-
-        documentReference.get().addOnSuccessListener { documentSnapshot ->
-            val existingPost = documentSnapshot.toObject(Post::class.java)
-            if (existingPost?.creatorId == FirebaseUtils.firebaseAuth.currentUser?.uid) {
-                val imageUrl = existingPost?.imageUrl
-                if (!imageUrl.isNullOrEmpty()) {
-                    val storageReference = storage.getReferenceFromUrl(imageUrl)
-                    storageReference.delete().addOnCompleteListener { deleteTask ->
-                        if (deleteTask.isSuccessful) {
-                            deletePostDocument(documentReference)
-                        } else {
-                            KToasty.error(context, "Error deleting post image", Toast.LENGTH_SHORT, true).show()
-                        }
-                    }
-                } else {
-                    deletePostDocument(documentReference)
-                }
-            } else {
-                KToasty.warning(context, "You can only delete your own posts!", Toast.LENGTH_SHORT, true).show()
-            }
-        }
-    }
-
-    private fun deletePostDocument(documentReference: DocumentReference) {
-        documentReference.delete().addOnCompleteListener { deleteTask ->
-            if (deleteTask.isSuccessful) {
-                KToasty.success(context, "Post deleted successfully!", Toast.LENGTH_SHORT, true).show()
-            } else {
-                KToasty.error(context, "Error deleting post", Toast.LENGTH_SHORT, true).show()
-            }
-        }
-    }
-
+    // Opens dialog for reporting options
     private fun reportDialog(postId: String) {
         InputSheet().show(context) {
             title("Report Post")
@@ -335,6 +293,7 @@ class HomeAdapter(
         }
     }
 
+    // Adds reported post to a new Firebase collection for review
     private fun reportPost(postId: String, reason: String) {
         val firestore = FirebaseFirestore.getInstance()
         val reportReference = firestore.collection(REPORTS_NODE).document()

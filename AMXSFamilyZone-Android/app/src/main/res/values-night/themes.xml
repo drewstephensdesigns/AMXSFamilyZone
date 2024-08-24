@@ -80,11 +80,15 @@
         <item name="android:buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
         <item name="fontFamily">@font/allerta</item>
         <item name="android:textSize">@dimen/medium_text</item>
-        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:backgroundDimAmount">0.7</item>
     </style>
 
     <style name="CustomDialogButton" parent="Widget.Material3.Button.TextButton">
         <item name="android:textColor">?colorControlNormal</item>
+    </style>
+
+    <style name="CustomViewSeparator" parent="">
+        <item name="android:background">#66FDF6DA</item>
     </style>
 
 </resources>
