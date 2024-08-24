@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Search bar -->
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="username"
+        android:hint="@string/title_search"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="20dp"
+        android:background="@drawable/background_input"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="?colorControlNormal"
+        android:inputType="text"/>
+
+    <!-- Trending now section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/trending_header"
+        android:textColor="?colorControlNormal"
+        android:paddingTop="24dp"
+        android:fontFamily="@font/alata"
+        android:textSize="@dimen/medium_text"/>
+
+    <!-- RecyclerView for trending posts -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_trending_posts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/layout_item_trending_post"/>
+
+    <!-- Follow suggestions section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/trending_users_header"
+        android:textColor="?colorControlNormal"
+        android:paddingTop="24dp"
+        android:fontFamily="@font/alata"
+        android:textSize="@dimen/medium_text"/>
+
+    <!-- RecyclerView for follow suggestions -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_follow_suggestions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/layout_item_follow_suggestion"/>
+
+</LinearLayout>
