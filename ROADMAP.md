@@ -13,6 +13,8 @@
     - Viewing open source licenses
 
 ## Upcoming Features
+- Search by hashtag/keywords
+- Click on hashtag to view similar posts
 
 ### iOS Version
 - **Notifications for New Posts**
