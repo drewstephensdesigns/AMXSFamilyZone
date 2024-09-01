@@ -12,10 +12,15 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.github.drewstephensdesigns.amxsfamilyzone.LoginActivity
 import com.github.drewstephensdesigns.amxsfamilyzone.R
+import com.github.drewstephensdesigns.amxsfamilyzone.RegisterActivity
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.FragmentSettingsBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.maxkeppeler.sheets.core.ButtonStyle
 import com.maxkeppeler.sheets.core.SheetStyle
+import com.maxkeppeler.sheets.info.InfoSheet
+import com.maxkeppeler.sheets.lottie.LottieAnimation
+import com.maxkeppeler.sheets.lottie.withCoverLottieAnimation
 import com.maxkeppeler.sheets.option.DisplayMode
 import com.maxkeppeler.sheets.option.Option
 import com.maxkeppeler.sheets.option.OptionSheet
@@ -66,6 +71,12 @@ class SettingsFragment : Fragment() {
 
         // Log user out
         binding.logout.setOnClickListener { logout() }
+
+        // Delete Account
+        binding.deleteAccount.setOnClickListener { deleteAccount() }
+
+        // Thanks
+        binding.acknowledgement.setOnClickListener { thankYouEasterEgg() }
     }
 
     private fun feedBack(){
@@ -98,6 +109,53 @@ class SettingsFragment : Fragment() {
         )
         startActivity(intent)
         requireActivity().finish()
+    }
+
+    private fun deleteAccount(){
+        InfoSheet().show(requireContext()){
+            style(SheetStyle.DIALOG)
+            title("Delete Account?")
+            content(R.string.delete_account)
+            onPositive("Delete Account") {
+                // Delete account from Firebase
+                FirebaseUtils.firebaseUser?.delete()
+                    ?.addOnCompleteListener {task ->
+                        if (task.isSuccessful) {
+                            //Log.d(TAG, "User account deleted.")
+                            val intent = Intent(
+                                requireActivity(),
+                                RegisterActivity::class.java
+                            )
+                            intent.addFlags(
+                                Intent.FLAG_ACTIVITY_NEW_TASK
+                                        or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                        or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            )
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
+                    }
+            }
+            onNegative("Cancel") {  }
+
+            positiveButtonStyle(ButtonStyle.OUTLINED)
+            negativeButtonStyle(ButtonStyle.NORMAL)
+            displayNegativeButton(true)
+            displayPositiveButton(true)
+        }
+    }
+
+    private fun thankYouEasterEgg(){
+        InfoSheet().show(requireContext()) {
+            style(SheetStyle.DIALOG)
+            title("Special Thanks and Consideration")
+            content(R.string.thank_you)
+            withCoverLottieAnimation(LottieAnimation {
+                setupAnimation {
+                    setAnimation(R.raw.thank_you)
+                }
+            })
+        }
     }
 
     private fun changeTheme(){

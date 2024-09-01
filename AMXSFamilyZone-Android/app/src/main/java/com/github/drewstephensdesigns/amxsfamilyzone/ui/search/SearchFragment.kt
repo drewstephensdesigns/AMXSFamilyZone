@@ -51,6 +51,7 @@ class SearchFragment : Fragment() {
             .whereNotEqualTo("creatorId", currentUserId)
             .orderBy("creatorId")
             .orderBy("time", Query.Direction.DESCENDING)
+            .limit(10)
 
         val recyclerViewOptions = FirestoreRecyclerOptions.Builder<Post>()
             .setQuery(query, Post::class.java)
@@ -78,6 +79,7 @@ class SearchFragment : Fragment() {
             .whereNotEqualTo("email", currentUserId)
             .orderBy("name")
             .orderBy("accountCreated", Query.Direction.DESCENDING)
+            .limit(10)
 
         val trendingUsersRecyclerOptions = FirestoreRecyclerOptions.Builder<User>()
             .setQuery(query, User::class.java)

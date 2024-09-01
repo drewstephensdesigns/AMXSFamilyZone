@@ -22,6 +22,7 @@
 
     <!-- App Actions -->
     <string name="action_sign_out">Sign Out</string>
+    <string name="action_delete_account">Delete Account</string>
     <string name="action_change_profile_photo">Change profile photo</string>
     <string name="action_share_post">Share</string>
     <string name="action_settings">Settings</string>
@@ -50,7 +51,7 @@
     <string name="following_header">Following</string>
     <string name="posts_header">Posts</string>
     <string name="trending_header">Trending Posts</string>
-    <string name="trending_users_header">New User Suggestions</string>
+    <string name="trending_users_header">New Users</string>
 
     <string name="trending_title">Trending Title</string>
     <string name="trending_description">Trending Post Description</string>
@@ -106,6 +107,8 @@ notify you when something new happens!</string>
     <string name="version_header">Build Version </string>
     <string name="version_text">%1$s %2$s</string>
     <string name="account_created_text">Account Created: %1$s</string>
+    <string name="follower_count_text">Followers: %1$s</string>
+    <string name="posted_by_text">Posted By %1$s</string>
 
     <string name="linkedIn" translatable="false">https://www.linkedin.com/in/drewstephens/</string>
     <string name="reddit" translatable="false">https://www.reddit.com/r/AirForce/</string>
@@ -113,5 +116,6 @@ notify you when something new happens!</string>
     <string name="profile_post_empty_text">When you share photos they\'ll appear on your profile</string>
     <string name="report_text">Why are you reporting this post? \n\nYour report is anonymous and will not be shared with anyone. If someone is in immediate danger, call the local emergency services - don\'t wait.</string>
     <string name="empty_state_image">Empty state image view</string>
-
+    <string name="thank_you">Thank you to the 317th AMXS Leadership and Key Spouse team for believing in me and allowing me an opportunity to follow my passion.</string>
+    <string name="delete_account">Are you sure you want to delete your account? This action cannot be undone!</string>
 </resources>

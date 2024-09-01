@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Search bar -->
+    <!-- Search bar
     <EditText
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
@@ -21,16 +21,16 @@
         android:textColor="@color/white"
         android:textColorHint="?colorControlNormal"
         android:inputType="text"/>
-
+    -->
     <!-- Trending now section -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/trending_header"
         android:textColor="?colorControlNormal"
-        android:paddingTop="24dp"
+        android:paddingTop="15dp"
         android:fontFamily="@font/alata"
-        android:textSize="@dimen/medium_text"/>
+        android:textSize="17sp"/>
 
     <!-- RecyclerView for trending posts -->
     <androidx.recyclerview.widget.RecyclerView
@@ -46,9 +46,9 @@
         android:layout_height="wrap_content"
         android:text="@string/trending_users_header"
         android:textColor="?colorControlNormal"
-        android:paddingTop="24dp"
+        android:paddingTop="15dp"
         android:fontFamily="@font/alata"
-        android:textSize="@dimen/medium_text"/>
+        android:textSize="17sp"/>
 
     <!-- RecyclerView for follow suggestions -->
     <androidx.recyclerview.widget.RecyclerView

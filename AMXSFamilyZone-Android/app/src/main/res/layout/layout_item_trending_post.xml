@@ -3,39 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="8dp">
-
-    <TextView
-        android:id="@+id/trending_position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="?colorControlNormal"
-        android:text="1"
-        android:layout_gravity="center_vertical"/>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
-
-        <TextView
-            android:id="@+id/trending_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?colorSecondaryContainer"
-            android:text="@string/trending_title"
-            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/trending_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?colorControlNormal"
+            android:textColor="?colorSecondaryContainer"
+            android:fontFamily="@font/allerta"
             android:text="@string/trending_description"
             android:textSize="14sp"/>
-    </LinearLayout>
+
+    <TextView
+        android:id="@+id/trending_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/alata"
+        android:textColor="@color/eagle_blue"
+        android:text="@string/trending_title"
+        android:textSize="13sp"/>
 </LinearLayout>

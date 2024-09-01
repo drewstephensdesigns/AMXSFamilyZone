@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.LayoutItemTrendingPostBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.Post
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts
@@ -64,7 +65,7 @@ class TrendingPostAdapter(
         private val postDescription : TextView = binding.trendingDescription
 
         fun bind(trendingPost : Post){
-            postAuthor.text = trendingPost.user.name
+            postAuthor.text = context.getString(R.string.posted_by_text, trendingPost.user.name)
             postDescription.text = trendingPost.text
 
             val firestore = FirebaseFirestore.getInstance()

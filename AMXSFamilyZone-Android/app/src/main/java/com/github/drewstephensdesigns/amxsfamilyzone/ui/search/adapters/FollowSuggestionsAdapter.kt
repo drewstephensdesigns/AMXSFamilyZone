@@ -72,7 +72,9 @@ class FollowSuggestionsAdapter(
 
         fun bind(trendingUsers: User) {
             trendingUser.text = trendingUsers.name
-            trendingUserFollowers.text = trendingUsers.getFollowersCount().toString()
+            trendingUserFollowers.text = context.getString(R.string.follower_count_text, trendingUsers.getFollowersCount().toString())
+
+            //trendingUsers.getFollowersCount().toString()
 
             // Check if the current user is already following the suggested user
             val currentUserId = FirebaseUtils.firebaseAuth.currentUser?.uid
