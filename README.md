@@ -84,6 +84,7 @@ This project uses the following libraries and plug-ins:
   - User Authentication
 * [Material Icons for Android](https://fonts.google.com)
 * [SF Symbols for Apple](https://developer.apple.com/sf-symbols/)
+* [Link-Previewer by soufianekremcht](https://github.com/soufianekremcht/Link-Previewer/tree/master) - 
 
 ### Special Thanks and Helpful Links Used
 * [Setting Up Firebase Authentication with email and password](https://medium.com/@mutebibrian256/firebase-authentication-with-email-and-password-in-android-using-kotlin-5fbe61ee6252)
