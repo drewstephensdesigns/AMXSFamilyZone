@@ -3,13 +3,13 @@ agp = "8.3.2"
 kotlin = "1.9.23"
 coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
 constraintlayout = "2.1.4"
-lifecycleLivedataKtx = "2.8.2"
-lifecycleViewmodelKtx = "2.8.2"
+lifecycleLivedataKtx = "2.8.4"
+lifecycleViewmodelKtx = "2.8.4"
 navigationFragmentKtx = "2.7.7"
 navigationUiKtx = "2.7.7"
 core = "2.3.1"
@@ -20,9 +20,9 @@ option = "2.3.1"
 lottieVersion = "6.4.0"
 picasso = "2.71828"
 firebaseAuthKtx = "23.0.0"
-firebaseFirestoreKtx = "25.0.0"
+firebaseFirestoreKtx = "25.1.0"
 firebaseStorageKtx = "21.0.0"
-firebaseBom = "33.1.0"
+firebaseBom = "33.2.0"
 firebaseDatabase = "21.0.0"
 googleServices = "4.4.2"
 circleimageview = "3.1.0"
@@ -35,6 +35,7 @@ ktoasty = "1.0"
 coil = "2.6.0"
 androidxNavigationSafeargsKotlinGradlePlugin = "2.7.7"
 expandable_textview = "2.0.0"
+linkPreviewer = "1.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -72,6 +73,7 @@ ktoasty = { group = "com.github.shubhamvashisht", name = "KToasty", version.ref 
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 androidx-androidx-navigation-safeargs-kotlin-gradle-plugin = { group = "androidx.navigation.safeargs.kotlin", name = "androidx.navigation.safeargs.kotlin.gradle.plugin", version.ref = "androidxNavigationSafeargsKotlinGradlePlugin" }
 expandable_textview = { group = "com.github.giangpham96.expandable-text", name = "expandable_textview", version.ref = "expandable_textview" }
+link-previewer = { group = "com.github.SoufianeKreX", name = "Link-Previewer", version.ref = "linkPreviewer" }
 
 
 [plugins]

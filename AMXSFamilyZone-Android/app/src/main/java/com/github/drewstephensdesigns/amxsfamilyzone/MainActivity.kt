@@ -13,6 +13,7 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -26,6 +27,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.droidman.ktoasty.KToasty
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.ActivityMainBinding
+import com.github.drewstephensdesigns.amxsfamilyzone.ui.posting.AddPostFragment
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.toast
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils.firebaseAuth
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.PostListenerService
@@ -161,10 +163,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE ) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 // Permission granted, start the service
                 startPostListenerService()
+                //AddPostFragment().cameraLauncher.launch(AddPostFragment().imageUri)
             } else {
                 // Permission denied, handle accordingly
                 toast("Notification permission denied. Notifications will not be shown.")
@@ -201,5 +204,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1
+        const val CAMERA_PERMISSION_REQUEST_CODE = 1
     }
 }

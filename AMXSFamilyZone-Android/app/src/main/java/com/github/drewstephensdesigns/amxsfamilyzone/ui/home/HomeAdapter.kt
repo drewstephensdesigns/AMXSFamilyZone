@@ -52,6 +52,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.internal.bind.TypeAdapters.URL
 import com.maxkeppeler.sheets.input.InputSheet
 import com.maxkeppeler.sheets.input.type.InputRadioButtons
+import com.soufianekre.linkpreviewer.data.UrlPreviewItem
+import com.soufianekre.linkpreviewer.views.UrlPreviewCard
 import com.squareup.picasso.Picasso
 import io.github.giangpham96.expandable_textview.ExpandableTextView
 import kotlinx.coroutines.CoroutineScope
@@ -119,11 +121,34 @@ class HomeAdapter(
         private val postOptions: TextView = binding.vertMenuOptions
         private val postShareIcon: TextView = binding.shareText
         private val postBookmarkIcon: TextView = binding.postBookmarkIcon
+        private val postLinkText: TextView = binding.postLinkText
+        private val postLinkPreview : UrlPreviewCard = binding.linkPreview
 
         fun bind(itemPost: Post) {
             authorText.text = itemPost.user.email
             postTimeText.text = itemPost.getTimeStamp()
             applyHashtagColor(itemPost.text, postText)
+
+            if (itemPost.link.isNotEmpty()){
+                postLinkText.visibility = View.VISIBLE
+                postLinkPreview.visibility = View.VISIBLE
+                postLinkText.text = itemPost.link
+
+                // UrlPreviewCard doesn't work with PDF, so if the link
+                // contains .pdf like an AFI, we'll hide the preview so the
+                // app doesn't break, else show the preview
+                if(itemPost.link.contains(".pdf")){
+                    postLinkPreview.visibility = View.GONE
+                } else {
+                    // Preview Post Link
+                    postLinkPreview.setUrl(itemPost.link,object : UrlPreviewCard.OnPreviewLoad {
+                        override fun onLinkLoaded(url:String,urlPreview: UrlPreviewItem) {}
+                    })
+                }
+            } else{
+                postLinkText.visibility = View.GONE
+                postLinkPreview.visibility = View.GONE
+            }
 
             // If post includes images, shows bookmark
             if (itemPost.imageUrl.isNullOrEmpty()) {
@@ -243,7 +268,7 @@ class HomeAdapter(
                 val clickableSpan = object : ClickableSpan() {
                     override fun onClick(widget: View) {
                         // Handle the hashtag click here
-                        onHashtagClick(hashtag)
+                        //onHashtagClick(hashtag)
                     }
 
                     override fun updateDrawState(ds: TextPaint) {
@@ -258,10 +283,6 @@ class HomeAdapter(
             textView.text = spannable
             textView.movementMethod = LinkMovementMethod.getInstance() // This is important to make the links clickable
         }
-    }
-
-    private fun onHashtagClick(hashtag: String){
-        KToasty.info(context, "Not Yet Available", Toast.LENGTH_SHORT, false).show()
     }
 
     // Opens dialog for reporting options

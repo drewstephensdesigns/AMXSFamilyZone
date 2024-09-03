@@ -13,6 +13,7 @@ import java.util.Locale
 data class Post(
     val id: String = "",
     val text: String = "",
+    val link: String = "",
     val imageUrl: String? = null,
     val user: User = User(),
     val time: Long = 0L,

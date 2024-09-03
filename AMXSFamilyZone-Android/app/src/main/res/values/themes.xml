@@ -13,6 +13,9 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="colorOnTertiary">@color/prussian_blue</item>
+
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorSurfaceContainerLowest">@color/black</item>
     </style>
 
     <style name="Theme.Register" parent="Theme.Material3.DayNight.NoActionBar">

@@ -22,7 +22,7 @@
     <!-- Post Text Input -->
     <EditText
         android:id="@+id/post_text"
-        android:layout_width="match_parent"
+        android:layout_width="480dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="12dp"
@@ -39,60 +39,31 @@
         android:textColorHint="?attr/colorControlNormal"
         android:textSize="@dimen/medium_text" />
 
-    <!-- Future add? -->
-    <!-- Poll Option Inputs
-    <LinearLayout
-        android:id="@+id/poll_options_layout"
+    <!-- Link -->
+    <EditText
+        android:id="@+id/link_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/post_text"
-        android:orientation="vertical"
-        android:layout_marginBottom="12dp"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/poll_option_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="poll_option_1"
-            android:inputType="text"
-            android:background="@drawable/background_input"
-            android:padding="12dp"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/poll_option_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="poll_option_2"
-            android:inputType="text"
-            android:background="@drawable/background_input"
-            android:padding="12dp"
-            android:textSize="16sp" />
-
-
-        <EditText
-            android:id="@+id/poll_option_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="poll_option_3"
-            android:inputType="text"
-            android:background="@drawable/background_input"
-            android:padding="12dp"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    -->
+        android:autofillHints="Your Post"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/background_input"
+        android:focusable="true"
+        android:fontFamily="@font/alata"
+        android:hint="@string/link_hint"
+        android:inputType="text"
+        android:maxLines="5"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:textColorHint="?attr/colorControlNormal"
+        android:visibility="gone" />
 
     <!-- Action Icons (image, gif, etc.) -->
     <LinearLayout
         android:id="@+id/action_icons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/post_text"
+        android:layout_below="@id/link_text"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
@@ -100,8 +71,8 @@
         <!-- Image icon and other icons -->
         <ImageView
             android:id="@+id/icon_image"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginStart="18dp"
             android:visibility="visible"
             app:tint="?colorControlNormal"
@@ -109,25 +80,47 @@
             android:src="@drawable/ic_add_photo" />
 
         <ImageView
-            android:id="@+id/post_image"
-            android:layout_width="120dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerInside"
+            android:id="@+id/icon_link_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginStart="18dp"
-            android:visibility="gone"
-            android:contentDescription="@string/user_post_image"
-            android:src="@drawable/ic_add_photo" />
+            android:rotation="45"
+            android:visibility="visible"
+            app:tint="?colorControlNormal"
+            android:contentDescription="@string/post_image_cd"
+            android:src="@drawable/ic_link" />
+
+        <ImageView
+            android:id="@+id/icon_take_photo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="18dp"
+            android:visibility="visible"
+            app:tint="?colorControlNormal"
+            android:contentDescription="@string/post_image_cd"
+            android:src="@drawable/ic_photo_camera" />
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/post_image"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/link_text"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:contentDescription="@string/user_post_image" />
 
     <!-- Post Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/action_icons"
+        android:layout_below="@id/post_image"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="15dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="?colorPrimaryContainer"
         android:elevation="2dp"
         android:paddingHorizontal="32dp"

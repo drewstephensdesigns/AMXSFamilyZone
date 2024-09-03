@@ -15,7 +15,7 @@
         <!-- Customize your theme here. -->
 
         <item name="colorControlNormal">@color/white</item>
-        <item name="colorSurfaceContainerLowest">@color/white</item>
+        <item name="colorSurfaceContainerLowest">@color/dim_white</item>
 
     </style>
 

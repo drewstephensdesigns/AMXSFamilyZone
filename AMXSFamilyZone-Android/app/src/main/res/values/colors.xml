@@ -7,8 +7,10 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#BAB6B6</color>
+    <color name="black">#353434</color>
+    <color name="white">#A9A7A7</color>
+
+    <color name="dim_white">#7D7B7B</color>
 
     <color name="platinum">#E5E5E5</color>
     <color name="actual_white">#EAFFFD</color>
@@ -28,6 +30,5 @@
     <color name="eagle_blue">#1282D8</color>
 
     <color name="prussian_blue">#102E4A</color>
-
 
 </resources>

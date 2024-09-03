@@ -46,17 +46,44 @@
             app:layout_constraintTop_toBottomOf="@id/feed_post_image"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
+        <TextView
+            android:id="@+id/post_link_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:focusable="true"
+            android:textColor="@color/eagle_blue"
+            android:textSize="@dimen/medium_text"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:fontFamily="@font/alata"
+            android:autoLink="web"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_text"
+            android:visibility="gone"
+            tools:text="https://www.google.com" />
+
+        <!-- URL Previewer -->
+        <com.soufianekre.linkpreviewer.views.UrlPreviewCard
+            android:id="@+id/link_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_link_text"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/post_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textColor="?colorControlNormal"
+            android:textColor="?colorSurfaceContainerLowest"
             android:fontFamily="@font/alata"
-            android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/post_text"
+            app:layout_constraintTop_toBottomOf="@id/link_preview"
             tools:text="Author Name" />
 
         <TextView
@@ -64,14 +91,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textColor="?colorControlNormal"
+            android:textColor="?colorSurfaceContainerLowest"
             android:textSize="@dimen/small_text"
             android:fontFamily="@font/alata"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_author"
             tools:text="HH:MM:SS" />
-
 
         <TextView
             android:id="@+id/vertMenuOptions"
