@@ -45,6 +45,7 @@
     <string name="user_profile_image">Profile Image</string>
 
     <string name="edit_user_header">Name:</string>
+    <string name="edit_username_header">Username:</string>
     <string name="edit_bio_header">Biography:</string>
     <string name="edit_link_header">Add a Link</string>
     <string name="followers_header">Followers</string>
@@ -91,6 +92,7 @@
     <string name="no_notifications_text">You currently have no notifications. \nWe will
 notify you when something new happens!</string>
     <string name="no_posts_found">Nothing to see here</string>
+    <string name="no_trending_posts_text">Looks like our trending topics have been grounded. \nWe\'re working on a quick fix.</string>
     
     <!-- Settings Fragment -->
     <string name="acknowledgement">Special Recognition and Appreciation</string>

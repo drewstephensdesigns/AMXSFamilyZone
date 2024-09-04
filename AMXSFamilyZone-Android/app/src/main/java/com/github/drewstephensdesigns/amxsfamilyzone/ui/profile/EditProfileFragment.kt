@@ -120,6 +120,7 @@ class EditProfileFragment : Fragment() {
         val user = User(
             id = UserUtil.user!!.id,
             name = newUserName,
+            userName = UserUtil.user!!.userName,
             email = UserUtil.user!!.email,
             following = UserUtil.user!!.following,
             bio = newBio,
@@ -191,6 +192,7 @@ class EditProfileFragment : Fragment() {
         val user = User(
             id = UserUtil.user!!.id,
             name = UserUtil.user!!.name,
+            userName = UserUtil.user!!.userName,
             email = UserUtil.user!!.email,
             following = UserUtil.user!!.following,
             bio = UserUtil.user!!.bio,

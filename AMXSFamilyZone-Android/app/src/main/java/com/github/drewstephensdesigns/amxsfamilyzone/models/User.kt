@@ -8,6 +8,7 @@ import java.util.Locale
 data class User(
     var id: String = "",
     val name: String = "",
+    val userName: String = "",
     val email: String = "",
     val following: MutableList<String> = mutableListOf(),
     val followers: MutableList<String> = mutableListOf(),

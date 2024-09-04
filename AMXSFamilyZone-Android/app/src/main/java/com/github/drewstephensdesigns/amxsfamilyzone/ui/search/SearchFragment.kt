@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.github.drewstephensdesigns.amxsfamilyzone.R
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.FragmentSearchBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.Post
 import com.github.drewstephensdesigns.amxsfamilyzone.models.User
@@ -28,12 +31,15 @@ class SearchFragment : Fragment() {
     private lateinit var trendingPostAdapter: TrendingPostAdapter
     private lateinit var suggestionsAdapter: FollowSuggestionsAdapter
 
+    private lateinit var noResultsTextView: TextView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        noResultsTextView = binding.noTrendingPostsFound
         return binding.root
     }
 
@@ -59,7 +65,7 @@ class SearchFragment : Fragment() {
             .build()
 
         context?.let {
-            trendingPostAdapter = TrendingPostAdapter(recyclerViewOptions, it)
+            trendingPostAdapter = TrendingPostAdapter(recyclerViewOptions, it, noResultsTextView)
         }
 
         if (this::trendingPostAdapter.isInitialized) {
@@ -87,7 +93,12 @@ class SearchFragment : Fragment() {
             .build()
 
         context?.let {
-            suggestionsAdapter = FollowSuggestionsAdapter(trendingUsersRecyclerOptions, it)
+            suggestionsAdapter = FollowSuggestionsAdapter(trendingUsersRecyclerOptions, it){trendingUser ->
+                val bundle = Bundle().apply {
+                    putString("USER_ID", trendingUser.id)
+                }
+                findNavController().navigate(R.id.navigation_user_profile, bundle)
+            }
         }
 
         if (this::suggestionsAdapter.isInitialized) {

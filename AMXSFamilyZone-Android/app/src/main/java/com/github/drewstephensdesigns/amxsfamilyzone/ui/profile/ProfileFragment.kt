@@ -95,7 +95,7 @@ class ProfileFragment : Fragment() {
 
         // Clicking profile image opens larger image to view
         binding.userImage.setOnClickListener { showUserImageDialog(currentUser.imageUrl) }
-        (activity as MainActivity).supportActionBar?.title = currentUser.name
+        (activity as MainActivity).supportActionBar?.title = currentUser.userName
 
         return binding.root
     }

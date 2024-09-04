@@ -32,6 +32,18 @@
         android:fontFamily="@font/alata"
         android:textSize="17sp"/>
 
+    <!-- No Results Text -->
+    <TextView
+        android:id="@+id/noTrendingPostsFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/alata"
+        android:text="@string/no_trending_posts_text"
+        android:textColor="?colorControlNormal"
+        android:textSize="@dimen/small_text"
+        android:visibility="gone" />
+
     <!-- RecyclerView for trending posts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_trending_posts"

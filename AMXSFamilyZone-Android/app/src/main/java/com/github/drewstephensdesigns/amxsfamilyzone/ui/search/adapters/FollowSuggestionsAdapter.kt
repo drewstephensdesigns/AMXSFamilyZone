@@ -20,7 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class FollowSuggestionsAdapter(
     options: FirestoreRecyclerOptions<User>,
-    val context: Context
+    val context: Context,
+    private val onUserNameClick: (User) -> Unit
 ) : FirestoreRecyclerAdapter<User, FollowSuggestionsAdapter.SuggestionsVH>(options) {
 
     init {
@@ -74,8 +75,6 @@ class FollowSuggestionsAdapter(
             trendingUser.text = trendingUsers.name
             trendingUserFollowers.text = context.getString(R.string.follower_count_text, trendingUsers.getFollowersCount().toString())
 
-            //trendingUsers.getFollowersCount().toString()
-
             // Check if the current user is already following the suggested user
             val currentUserId = FirebaseUtils.firebaseAuth.currentUser?.uid
             val userId = trendingUsers.id // Assuming User model has a field id for user's UID
@@ -113,6 +112,12 @@ class FollowSuggestionsAdapter(
                     followUser(currentUserId, userId)
                 } else {
                     unfollowUser(currentUserId, userId)
+                }
+            }
+
+            trendingUser.setOnClickListener {
+                if(userId != currentUserId){
+                    onUserNameClick(trendingUsers)
                 }
             }
         }

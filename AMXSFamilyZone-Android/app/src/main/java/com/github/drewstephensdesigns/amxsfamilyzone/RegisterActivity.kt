@@ -5,7 +5,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.droidman.ktoasty.KToasty
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.ActivityRegisterBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.models.User
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.snackbar
@@ -76,7 +78,8 @@ class RegisterActivity : AppCompatActivity() {
                         val userId = currentUser?.uid ?: return@addOnCompleteListener
                         val user = User(
                             id = userId,
-                            name = userName,
+                            name = userFullName,
+                            userName = userName,
                             email = userEmail,
                             accountCreated =  System.currentTimeMillis() // Capture current timestamp
                         )
@@ -107,12 +110,6 @@ class RegisterActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        val user:FirebaseUser? = FirebaseUtils.firebaseAuth.currentUser
-
-        user?.let {
-            val username = user.email?.substringBefore("@")
-            toast("Welcome back, ${username}!")
-            startActivity(Intent(this, MainActivity::class.java))
-        }
+        startActivity(Intent(this, MainActivity::class.java))
     }
 }

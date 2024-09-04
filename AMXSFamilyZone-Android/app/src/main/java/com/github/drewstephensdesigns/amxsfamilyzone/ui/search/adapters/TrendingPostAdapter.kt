@@ -2,6 +2,7 @@ package com.github.drewstephensdesigns.amxsfamilyzone.ui.search.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class TrendingPostAdapter(
     options: FirestoreRecyclerOptions<Post>,
-    val context: Context
+    val context: Context,
+    val noResultsTextView: TextView,
 ) : FirestoreRecyclerAdapter<Post, TrendingPostAdapter.TrendingVH>(options) {
 
     init {
@@ -38,7 +40,7 @@ class TrendingPostAdapter(
             }
 
             fun checkIfEmpty() {
-                //noResultsTextView.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
+                noResultsTextView.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
             }
         })
     }
