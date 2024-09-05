@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -41,6 +42,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Override the back press behavior
+        // If the user presses back on any fragment other than "Home," they will navigate to the previous fragment.
+        // If they are on the "Home" fragment and press back, the app will close.
+        onBackPressedDispatcher.addCallback(this) {
+            val navController = findNavController(R.id.nav_host_fragment_activity_main)
+            if (navController.currentDestination?.id == R.id.navigation_home) {
+                // If we're on the home fragment, close the app
+                finishAffinity()
+            } else {
+                // Otherwise, navigate back to the previous fragment
+                navController.navigateUp()
+            }
+        }
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -200,7 +216,6 @@ class MainActivity : AppCompatActivity() {
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             }
     }
-
 
     companion object {
         private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1
