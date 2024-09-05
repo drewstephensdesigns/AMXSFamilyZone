@@ -44,7 +44,7 @@ class AddPostFragment : Fragment() {
 
     private var _binding: FragmentAddPostBinding? = null
     private val binding get() = _binding!!
-    var imageUri: Uri? = null
+    private var imageUri: Uri? = null
 
     private val launcher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { result ->
         if (result == null) {
@@ -57,7 +57,7 @@ class AddPostFragment : Fragment() {
         }
     }
 
-    val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
             binding.postImage.visibility = View.VISIBLE
             binding.postImage.setImageURI(imageUri)

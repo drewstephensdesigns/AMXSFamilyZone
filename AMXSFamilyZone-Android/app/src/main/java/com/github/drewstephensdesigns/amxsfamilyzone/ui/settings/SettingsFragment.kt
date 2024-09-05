@@ -77,6 +77,9 @@ class SettingsFragment : Fragment() {
 
         // Thanks
         binding.acknowledgement.setOnClickListener { thankYouEasterEgg() }
+
+        // Privacy Policy
+        binding.help.setOnClickListener { openLink(resources.getString(R.string.privacy_policy_url)) }
     }
 
     private fun feedBack(){

@@ -97,7 +97,7 @@ notify you when something new happens!</string>
     <!-- Settings Fragment -->
     <string name="acknowledgement">Special Recognition and Appreciation</string>
     <string name="open_source">Open Source Libraries</string>
-    <string name="help">Help</string>
+    <string name="help">Privacy Policy</string>
     <string name="feedback">Let us know how we can improve</string>
     <string name="connect">Connect with me on these platforms</string>
     <string name="change_theme">Change Theme</string>
@@ -120,4 +120,5 @@ notify you when something new happens!</string>
     <string name="empty_state_image">Empty state image view</string>
     <string name="thank_you">Thank you to the 317th AMXS Leadership and Key Spouse team for believing in me and allowing me an opportunity to follow my passion.</string>
     <string name="delete_account">Are you sure you want to delete your account? This action cannot be undone!</string>
+    <string name="privacy_policy_url" translatable="false">https://drewstephensdesigns.github.io/privacy-policy/amxs-family-zone</string>
 </resources>
