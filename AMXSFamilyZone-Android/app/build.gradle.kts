@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.expandable.textview)
     implementation(libs.link.previewer)
+    implementation(libs.androidx.work.runtime.ktx)
 
 
     // Tests

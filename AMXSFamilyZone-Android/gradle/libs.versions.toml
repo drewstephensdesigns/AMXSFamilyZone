@@ -36,6 +36,7 @@ coil = "2.6.0"
 androidxNavigationSafeargsKotlinGradlePlugin = "2.7.7"
 expandable_textview = "2.0.0"
 linkPreviewer = "1.0.1"
+workRuntimeKtx = "2.9.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -74,6 +75,7 @@ coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 androidx-androidx-navigation-safeargs-kotlin-gradle-plugin = { group = "androidx.navigation.safeargs.kotlin", name = "androidx.navigation.safeargs.kotlin.gradle.plugin", version.ref = "androidxNavigationSafeargsKotlinGradlePlugin" }
 expandable_textview = { group = "com.github.giangpham96.expandable-text", name = "expandable_textview", version.ref = "expandable_textview" }
 link-previewer = { group = "com.github.SoufianeKreX", name = "Link-Previewer", version.ref = "linkPreviewer" }
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
 
 
 [plugins]

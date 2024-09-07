@@ -29,9 +29,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.droidman.ktoasty.KToasty
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.ActivityMainBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.ui.posting.AddPostFragment
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.toast
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils.firebaseAuth
-import com.github.drewstephensdesigns.amxsfamilyzone.utils.PostListenerService
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.PostListener
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.UserUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var postListener: PostListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,21 +90,11 @@ class MainActivity : AppCompatActivity() {
         applyTheme()
         kToastyConfig()
 
-        // Request notification permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
-            } else {
-                startPostListenerService()
-            }
-        } else {
-            startPostListenerService()
-        }
-    }
+        // Initialize the PostListener with the current context
+        postListener = PostListener(this)
 
-    private fun startPostListenerService() {
-        val intent = Intent(this, PostListenerService::class.java)
-        ContextCompat.startForegroundService(this, intent)
+        // Start listening for new posts
+        postListener.startListening()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -177,20 +169,6 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE ) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                // Permission granted, start the service
-                startPostListenerService()
-                //AddPostFragment().cameraLauncher.launch(AddPostFragment().imageUri)
-            } else {
-                // Permission denied, handle accordingly
-                toast("Notification permission denied. Notifications will not be shown.")
-            }
-        }
-    }
-
     // called when the configuration of the device changes. It is typically used
     // to handle changes in device orientation or changes in other device-specific
     // configurations such as the language or screen size.
@@ -217,8 +195,32 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PostListener.NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, start listening for posts
+                postListener.startListening()
+                //Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
+            } else {
+                // Permission denied, notify user
+                //Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Stop listening for new posts when the activity is destroyed
+        postListener.stopListening()
+    }
+
     companion object {
-        private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1
         const val CAMERA_PERMISSION_REQUEST_CODE = 1
     }
 }
