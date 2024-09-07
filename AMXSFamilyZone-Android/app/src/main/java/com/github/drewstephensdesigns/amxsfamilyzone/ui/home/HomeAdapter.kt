@@ -16,6 +16,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,8 +51,12 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.internal.bind.TypeAdapters.URL
+import com.maxkeppeler.sheets.core.SheetStyle
 import com.maxkeppeler.sheets.input.InputSheet
 import com.maxkeppeler.sheets.input.type.InputRadioButtons
+import com.maxkeppeler.sheets.option.DisplayMode
+import com.maxkeppeler.sheets.option.Option
+import com.maxkeppeler.sheets.option.OptionSheet
 import com.soufianekre.linkpreviewer.data.UrlPreviewItem
 import com.soufianekre.linkpreviewer.views.UrlPreviewCard
 import com.squareup.picasso.Picasso
@@ -167,9 +172,9 @@ class HomeAdapter(
             // the images smaller, but allows the user to view a full size in a popup window
             postImage.setOnClickListener {
                 if(itemPost.imageUrl!!.isNotEmpty()){
-                    val dialogView =
-                        LayoutInflater.from(context).inflate(R.layout.dialog_post_view, null)
+                    val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_post_view, null)
                     val dialogImageView: ImageView = dialogView.findViewById(R.id.dialogImageView)
+                    val menuIcon: ImageView = dialogView.findViewById(R.id.menuIcon)
 
                     Picasso.get().load(itemPost.imageUrl).into(dialogImageView)
                     MaterialAlertDialogBuilder(context, R.style.CustomAlertDialog)
@@ -177,6 +182,40 @@ class HomeAdapter(
                         //.setTitle(currentUser.name)
                         .create()
                         .show()
+
+                    menuIcon.setOnClickListener {
+                        OptionSheet().show(context) {
+                            style(SheetStyle.BOTTOM_SHEET)
+                            displayMode(DisplayMode.LIST)
+                            with(
+                                Option("Download Image", "Save image to your device"),
+                                Option("Share Image", "Share this image with your friends")
+                            )
+                            onPositive { index: Int, _: Option ->
+                                when (index) {
+                                    0 -> {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                            downloadImageUsingMediaStore(context!!, itemPost.imageUrl)
+                                        } else {
+                                            downloadImageUsingDownloadManager(context!!, itemPost.imageUrl)
+                                        }
+                                        //sharePost(post.imageUrl)
+                                        //dismiss()
+                                    }
+                                    1 ->{
+                                        val sendIntent: Intent = Intent().apply {
+                                            action = Intent.ACTION_SEND
+                                            putExtra(Intent.EXTRA_TEXT, itemPost.imageUrl)
+                                            type = "text/plain"
+                                        }
+                                        val shareIntent = Intent.createChooser(sendIntent, null)
+                                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        startActivity(context!!, shareIntent, null)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -240,7 +279,7 @@ class HomeAdapter(
 
                     // Allows user to save image to device
                     postBookmarkIcon.setOnClickListener {
-                        if (itemPost.imageUrl.isNullOrEmpty()) {
+                        if (itemPost.imageUrl!!.isEmpty()) {
                             KToasty.warning(context, "No image to download", Toast.LENGTH_SHORT, true).show()
                         } else {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

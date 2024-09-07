@@ -35,6 +35,7 @@
     <string name="action_search">Search for users</string>
     <string name="action_notifications">Notifications</string>
     <string name="action_bookmark">Save</string>
+    <string name="action_save_post_image">Save Image</string>
 
     <string name="password_reset_message">Email sent!</string>
 
@@ -73,10 +74,12 @@
     <string name="update_button_text">Update</string>
 
     <string name="login_text">Already have an account? Login</string>
-
     <string name="sign_up_welcome_text">Welcome to the 317th AMXS Family Zone! View upcoming information and connect with 317 AMXS family, both active duty and spouses.</string>
     <string name="sign_in_welcome_text">Welcome back! Sign in to continue</string>
     <string name="forgot_password_welcome_text">Please enter the email address used when signing up to receive a link to reset your password.</string>
+    <string name="login_welcome_message">Welcome back, %1$s</string>
+    <string name="login_failed_message">Sorry, login failed. Please try again. %1$s</string>
+    <string name="register_success_message">Sign in successful!</string>
 
     <string name="opsec_disclaimer">Please remember OPSEC when posting!</string>
 

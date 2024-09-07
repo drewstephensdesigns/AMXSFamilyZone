@@ -47,6 +47,7 @@
             style="@style/AboutCard">
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/AboutItem"
+                android:id="@+id/changeThemeTextIcon"
                 android:text="@string/change_theme"
                 android:drawableStart="@drawable/ic_change_theme"/>
         </com.google.android.material.card.MaterialCardView>

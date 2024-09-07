@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.droidman.ktoasty.KToasty
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.ActivityLoginBinding
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.negativeToast
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.successToast
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.toast
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils
 
@@ -47,13 +50,13 @@ class LoginActivity : AppCompatActivity() {
             FirebaseUtils.firebaseAuth.signInWithEmailAndPassword(signInEmail, signInPassword)
                 .addOnCompleteListener { signIn ->
                     if(signIn.isSuccessful){
-                        val currentUserID = FirebaseUtils.firebaseAuth.currentUser?.email
-                        toast("Welcome Back $currentUserID")
+                        val currentUser = FirebaseUtils.firebaseAuth.currentUser?.email
+                        successToast(getString(R.string.login_welcome_message, currentUser))
                         startActivity(Intent(this, MainActivity::class.java))
 
                         finish()
                     } else {
-                        toast("sign in failed + ${signIn.exception}")
+                        negativeToast(getString(R.string.login_failed_message, signIn.exception))
                     }
                 }
         } else {

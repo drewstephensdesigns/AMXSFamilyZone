@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.expandable.textview)
     implementation(libs.link.previewer)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.datastore.preferences)
 
 
     // Tests

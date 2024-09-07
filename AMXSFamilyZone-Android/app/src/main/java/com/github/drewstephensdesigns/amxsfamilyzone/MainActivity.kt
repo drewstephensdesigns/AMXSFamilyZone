@@ -6,19 +6,16 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.MenuProvider
 import androidx.navigation.findNavController
@@ -28,9 +25,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.droidman.ktoasty.KToasty
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.ActivityMainBinding
-import com.github.drewstephensdesigns.amxsfamilyzone.ui.posting.AddPostFragment
-import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts
-import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.toast
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.infoToast
+import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.negativeToast
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils.firebaseAuth
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.PostListener
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.UserUtil
@@ -39,7 +35,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var sharedPreferences: SharedPreferences
+    //private lateinit var sharedPreferences: SharedPreferences
     private lateinit var postListener: PostListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,11 +55,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         setupMenu()
 
@@ -87,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        applyTheme()
+        //applyTheme()
         kToastyConfig()
 
         // Initialize the PostListener with the current context
@@ -95,6 +90,8 @@ class MainActivity : AppCompatActivity() {
 
         // Start listening for new posts
         postListener.startListening()
+
+        Log.d("MAIN ACTIVITY", "Current Theme is: + ${resources.configuration.uiMode}")
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -122,7 +119,8 @@ class MainActivity : AppCompatActivity() {
                     // Returns to LoginActivity.kt
                     R.id.action_sign_out ->{
                         logout()
-                        toast("Signed Out")
+                        //toast("Signed Out")
+                        infoToast("Signed out")
                         true
                     }
 
@@ -130,20 +128,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    /**
-     * Applies the App's Theme from sharedPrefs
-     */
-    private fun applyTheme() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-
-        val modeNight = sharedPreferences.getInt(
-            getString(R.string.pref_key_mode_night),
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        )
-
-        AppCompatDelegate.setDefaultNightMode(modeNight)
     }
 
     private fun kToastyConfig() {
@@ -174,7 +158,8 @@ class MainActivity : AppCompatActivity() {
     // configurations such as the language or screen size.
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        applyTheme()
+        //applyTheme()
+        (application as AMXSApplication).applyTheme()
         getOrientation()
         recreate()
     }
@@ -205,10 +190,9 @@ class MainActivity : AppCompatActivity() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, start listening for posts
                 postListener.startListening()
-                //Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
             } else {
                 // Permission denied, notify user
-                //Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
+                negativeToast("Notification permission denied")
             }
         }
     }

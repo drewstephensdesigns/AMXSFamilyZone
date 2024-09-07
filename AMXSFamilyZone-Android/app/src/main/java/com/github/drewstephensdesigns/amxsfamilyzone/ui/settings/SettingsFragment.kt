@@ -8,7 +8,10 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.fragment.app.Fragment
 import com.github.drewstephensdesigns.amxsfamilyzone.LoginActivity
 import com.github.drewstephensdesigns.amxsfamilyzone.R
@@ -175,27 +178,26 @@ class SettingsFragment : Fragment() {
             onPositive { index: Int, _: Option ->
                 when(index){
                     0 -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                         sharedPreferences.edit().putInt(
                             getString(R.string.pref_key_mode_night),
-                            AppCompatDelegate.MODE_NIGHT_NO
+                            MODE_NIGHT_NO
                         ).apply()
-
+                        setDefaultNightMode(MODE_NIGHT_NO)
                     }
                     1 -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                         sharedPreferences.edit().putInt(
                             getString(R.string.pref_key_mode_night),
-                            AppCompatDelegate.MODE_NIGHT_YES
+                            MODE_NIGHT_YES
                         ).apply()
+                        setDefaultNightMode(MODE_NIGHT_YES)
 
                     }
                     2 -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                         sharedPreferences.edit().putInt(
                             getString(R.string.pref_key_mode_night),
-                            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                            MODE_NIGHT_FOLLOW_SYSTEM
                         ).apply()
+                        setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
                     }
                 }
             }
