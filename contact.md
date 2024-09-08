@@ -10,7 +10,7 @@ title: Contact Us
   </a>
 
 <h2 align="center">Contact</h2>
-<h4 align="center">You can delete your account from within the app, or if you would like, <br />use the contact form below to request your account and/or data be permanently deleted.</h4>
+<h4 align="center">You can delete uploaded data or your account from within the app, or if you would like, <br />use the contact form below to request your account and/or data be permanently deleted.</h4>
 </div>
 
 <style>
