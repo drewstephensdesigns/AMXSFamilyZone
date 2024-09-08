@@ -29,7 +29,8 @@
             android:layout_marginBottom="0dp"
             android:text="@string/app_name"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="@font/allerta"/>
 
         <TextView
             android:id="@+id/appVersionTV"
@@ -40,7 +41,7 @@
             android:layout_marginBottom="30dp"
             android:text="@string/app_name"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/alata"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/theme"

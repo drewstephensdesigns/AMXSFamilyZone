@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/welcome_text"
-        android:layout_width="match_parent"
+        android:layout_width="488dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome_header"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -43,8 +43,8 @@
 
     <EditText
         android:id="@+id/signup_fullname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="488dp"
+        android:layout_height="48dp"
         android:layout_below="@id/welcome_text"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -58,8 +58,8 @@
 
     <EditText
         android:id="@+id/signup_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="488dp"
+        android:layout_height="48dp"
         android:layout_below="@id/signup_fullname"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -73,8 +73,8 @@
 
     <EditText
         android:id="@+id/signup_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="488dp"
+        android:layout_height="48dp"
         android:layout_below="@id/signup_username"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -88,8 +88,8 @@
 
     <EditText
         android:id="@+id/signup_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="488dp"
+        android:layout_height="48dp"
         android:layout_below="@id/signup_email"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -101,10 +101,10 @@
         android:textSize="@dimen/edittext_button_size"
         android:autofillHints="password" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/signup_btn"
         android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/signup_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_vertical_margin"
