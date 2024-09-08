@@ -20,6 +20,7 @@ import com.github.drewstephensdesigns.amxsfamilyzone.ui.profile.adapter.UserPost
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts.notifyUserNoImage
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
@@ -50,6 +51,9 @@ class UserProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentUserProfileBinding.inflate(inflater, container, false)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
 
         // Initialize Firestore and current user
         firestore = FirebaseFirestore.getInstance()

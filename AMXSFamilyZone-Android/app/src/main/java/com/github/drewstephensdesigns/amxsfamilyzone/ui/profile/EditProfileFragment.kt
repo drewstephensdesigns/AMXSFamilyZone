@@ -12,6 +12,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuProvider
@@ -19,6 +20,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.transition.ChangeBounds
 import coil.load
 import com.github.drewstephensdesigns.amxsfamilyzone.MainActivity
 import com.github.drewstephensdesigns.amxsfamilyzone.R
@@ -27,6 +29,9 @@ import com.github.drewstephensdesigns.amxsfamilyzone.models.User
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Consts
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.Extensions.toast
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.UserUtil
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
@@ -60,6 +65,11 @@ class EditProfileFragment : Fragment() {
 
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as MainActivity).supportActionBar?.setHomeButtonEnabled(true)
+
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+
+        //MaterialSharedAxis(MaterialSharedAxis.Z, true)
 
         val imageUrl = UserUtil.user?.imageUrl
         if (!imageUrl.isNullOrEmpty()) {

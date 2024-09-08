@@ -1,21 +1,17 @@
 package com.github.drewstephensdesigns.amxsfamilyzone
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.Settings
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.MenuProvider
 import androidx.navigation.findNavController
@@ -35,7 +31,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    //private lateinit var sharedPreferences: SharedPreferences
     private lateinit var postListener: PostListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +52,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         setupMenu()
 
@@ -91,7 +84,6 @@ class MainActivity : AppCompatActivity() {
         // Start listening for new posts
         postListener.startListening()
 
-        Log.d("MAIN ACTIVITY", "Current Theme is: + ${resources.configuration.uiMode}")
     }
 
     override fun onSupportNavigateUp(): Boolean {

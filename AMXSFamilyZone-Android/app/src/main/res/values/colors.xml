@@ -20,15 +20,12 @@
     <color name="alamo_adobe">#4F301F</color>
     <color name="lone_star_maroon">#2B1919</color>
     <color name="ranger_rust">#34170D</color>
-
     <color name="hazard_orange">#BFE67B17</color>
     <color name="lone_star_glow"> #FDF6DA</color>
     <color name="texas_sandstone">#F0D0A6</color>
     <color name="texas_taupe">#9A9485</color>
-
     <color name="charger_red">#AB1F20</color>
     <color name="eagle_blue">#1282D8</color>
-
     <color name="prussian_blue">#102E4A</color>
 
 </resources>

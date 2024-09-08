@@ -19,6 +19,7 @@ import com.github.drewstephensdesigns.amxsfamilyzone.RegisterActivity
 import com.github.drewstephensdesigns.amxsfamilyzone.databinding.FragmentSettingsBinding
 import com.github.drewstephensdesigns.amxsfamilyzone.utils.FirebaseUtils
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.google.android.material.transition.MaterialFadeThrough
 import com.maxkeppeler.sheets.core.ButtonStyle
 import com.maxkeppeler.sheets.core.SheetStyle
 import com.maxkeppeler.sheets.info.InfoSheet
@@ -41,6 +42,9 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         initCardViews()
 
@@ -178,25 +182,16 @@ class SettingsFragment : Fragment() {
             onPositive { index: Int, _: Option ->
                 when(index){
                     0 -> {
-                        sharedPreferences.edit().putInt(
-                            getString(R.string.pref_key_mode_night),
-                            MODE_NIGHT_NO
-                        ).apply()
+                        sharedPreferences.edit().putInt(getString(R.string.pref_key_mode_night), MODE_NIGHT_NO).apply()
                         setDefaultNightMode(MODE_NIGHT_NO)
                     }
                     1 -> {
-                        sharedPreferences.edit().putInt(
-                            getString(R.string.pref_key_mode_night),
-                            MODE_NIGHT_YES
-                        ).apply()
+                        sharedPreferences.edit().putInt(getString(R.string.pref_key_mode_night), MODE_NIGHT_YES).apply()
                         setDefaultNightMode(MODE_NIGHT_YES)
 
                     }
                     2 -> {
-                        sharedPreferences.edit().putInt(
-                            getString(R.string.pref_key_mode_night),
-                            MODE_NIGHT_FOLLOW_SYSTEM
-                        ).apply()
+                        sharedPreferences.edit().putInt(getString(R.string.pref_key_mode_night), MODE_NIGHT_FOLLOW_SYSTEM).apply()
                         setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
                     }
                 }

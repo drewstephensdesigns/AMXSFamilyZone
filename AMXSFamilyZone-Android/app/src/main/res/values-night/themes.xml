@@ -9,11 +9,14 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?colorSurfaceContainerLow</item>
-        <item name="android:navigationBarColor">?colorSurfaceContainerLow</item>
-        <!-- Customize your theme here. -->
 
+        <item name="colorOutlineVariant">@color/eagle_blue</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?colorSurfaceContainer</item>
+        <item name="android:navigationBarColor">?colorSurfaceContainer</item>
+
+        <!-- Customize your theme here. -->
         <item name="colorControlNormal">@color/white</item>
         <item name="colorSurfaceContainerLowest">@color/dim_white</item>
 
@@ -85,10 +88,6 @@
 
     <style name="CustomDialogButton" parent="Widget.Material3.Button.TextButton">
         <item name="android:textColor">?colorControlNormal</item>
-    </style>
-
-    <style name="CustomViewSeparator" parent="">
-        <item name="android:background">#66FDF6DA</item>
     </style>
 
 </resources>

@@ -36,6 +36,7 @@
             android:id="@+id/follow_user_followers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:textColor="?colorControlNormal"
             tools:text="317 followers"
             android:fontFamily="@font/allerta"
@@ -45,8 +46,8 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_follow"
         android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:backgroundTint="?colorTertiaryFixedDim"
+        android:layout_height="48dp"
+        android:backgroundTint="?attr/colorTertiaryFixedDim"
         android:textSize="14sp"
         android:text="@string/action_follow"
         android:layout_marginEnd="10dp"

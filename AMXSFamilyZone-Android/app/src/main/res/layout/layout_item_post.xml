@@ -19,11 +19,11 @@
         <ImageView
             android:id="@+id/feed_post_image"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/small_text"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/post_image_cd"
-            android:scaleType="fitCenter"
+            android:scaleType="center"
             android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -103,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/action_post_options"
+            android:fontFamily="@font/allerta"
             android:textSize="18sp"
             android:textColor="?colorControlNormal"
             android:textStyle="bold"
@@ -120,6 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/action_share_post"
+            android:fontFamily="@font/allerta"
             android:textSize="18sp"
             android:textColor="?colorControlNormal"
             android:textStyle="bold"
@@ -137,6 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/action_bookmark"
+            android:fontFamily="@font/allerta"
             android:textSize="18sp"
             android:textColor="?colorControlNormal"
             android:textStyle="bold"
@@ -148,13 +151,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_time" />
-
-        <View
-            style="@style/CustomViewSeparator"
+        
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1.2dp"
+            android:layout_height="wrap_content"
+            app:dividerColor="?colorOutlineVariant"
+            app:dividerInsetStart="16dp"
+            app:dividerInsetEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="parent"/>
+            app:layout_constraintStart_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
